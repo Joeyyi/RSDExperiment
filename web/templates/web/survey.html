@@ -11,11 +11,11 @@
     <form action="{% url 'index'}" method="POST">
     {% csrf_token %}
     {% for q in question_list %}
-      <li>
-        <label for="choice">{{ q.caption }}</label>
-        {% if q.type == '单选' %}
+        <label for="choice">{{ forloop.counter }}. {{ q.caption }}</label>
+        <br>
+        {% if q.type_question == 1 %}
           {% for o in q.options %}
-            <input type="redio" name="choice" id="{{ o.id }}" value="{{ o.value }}">
+            <input type="radio" name="choice" id="{{ o.id }}" value="{{ o.value }}">
             <label for="choice">{{ o.description }}</label>
           {% endfor %}
         {% else %}
@@ -24,8 +24,9 @@
             <label for="choice">{{ o.description }}</label>
           {% endfor %}
         {% endif %}
-      </li>
+        <br>
     {% endfor %}
+    <input type="button" value="提交">
     </form>
   {% else %}
     <p>No questions are available.</p>

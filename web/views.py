@@ -8,7 +8,7 @@ from .models import Subject, Survey, Question, Option
 
 def index(request):
 
-  return HttpResponse("welcome")
+  return render(request, 'web/index.html')
 
 def insructions(request):
   return HttpResponse("实验指导")
