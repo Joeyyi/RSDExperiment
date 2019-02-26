@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+  <title>survey</title>
+</head>
+<body>
+  {% if survey %}
+    <h2>{{survey.title}}</h2>
+    <p>{{survey.description}}</>
+  {% endif %}
+  {% if question_list %}
+    <form action="{% url 'index'}" method="POST">
+    {% csrf_token %}
+    {% for q in question_list %}
+      <li>
+        <label for="choice">{{ q.caption }}</label>
+        {% if q.type == '单选' %}
+          {% for o in q.options %}
+            <input type="redio" name="choice" id="{{ o.id }}" value="{{ o.value }}">
+            <label for="choice">{{ o.description }}</label>
+          {% endfor %}
+        {% else %}
+          {% for o in q.options %}
+            <input type="checkbox" name="choice" id="{{ o.id }}" value="{{ o.value }}">
+            <label for="choice">{{ o.description }}</label>
+          {% endfor %}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </form>
+  {% else %}
+    <p>No questions are available.</p>
+  {% endif %}
+</body>
+<style></style>
