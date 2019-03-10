@@ -17,10 +17,20 @@ def start(request):
   return HttpResponse("点评网站首页")
 
 def listing(request):
-  return HttpResponse("商户列表")
+  import json
+  with open("list.json",'r') as load_f:
+    list_dict = json.load(load_f)
+  context = {'stores': list_dict[:15]}
+  return render(request, 'web/list.html', context)
 
 def details(request):
-  return HttpResponse("商户详情")
+  import json
+  with open("list.json",'r') as load_f:
+    list_dict = json.load(load_f)
+    # for(store in list_dict[16:]):
+    #   if(store.store)
+  context = {'stores': list_dict[:15]}
+  return render(request, 'web/detail.html')
 
 def survey(request):
   survey = Survey.objects.get(id=1)
