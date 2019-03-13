@@ -2,6 +2,20 @@ from django.db import models
 
 # Create your models here.
 
+class Store(models.Model):
+  store_name= models.CharField(max_length=50, verbose_name='被试姓名')
+  store_stars= models.CharField(max_length=5, verbose_name='被试姓名')
+  store_avg= models.CharField(max_length=5, verbose_name='被试姓名')
+  store_addr= models.CharField(max_length=50, verbose_name='被试姓名')
+  store_num_review = models.IntegerField(verbose_name='被试年龄')
+  store_rec= models.CharField(max_length=50, verbose_name='被试姓名')
+  store_region= models.CharField(max_length=20, verbose_name='被试姓名')
+  store_category= models.CharField(max_length=20, verbose_name='被试姓名')
+  store_flavor= models.CharField(max_length=5, verbose_name='被试姓名')
+  store_envir = models.CharField(max_length=5, verbose_name='被试姓名')
+  store_service = models.CharField(max_length=5, verbose_name='被试姓名')
+  store_phone = models.CharField(max_length=30, verbose_name='被试姓名')
+
 class Subject(models.Model):
   name = models.CharField(max_length=20, verbose_name='被试姓名')
   date_created = models.DateTimeField(verbose_name='被试注册时间')
