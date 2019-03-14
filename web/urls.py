@@ -10,4 +10,5 @@ urlpatterns = [
   path('all', views.all, name='all'),
   path('all/<int:id>', views.details, name='details'),
   path('survey', views.survey, name='survey'),
+  path('goodbye', views.goodbye, name='goodbye'),
 ]

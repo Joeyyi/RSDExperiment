@@ -1,9 +1,50 @@
 <!DOCTYPE html>
+
 <head>
   <title>survey</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous">
+
 </head>
+
 <body>
-  {% if survey %}
+  <div class="container">
+    <div class="py-5 text-center">
+      <h2>实验问卷</h2>
+      <p class="lead">以下问题均有五个选项，非常不同意、不同意、不确定、同意、非常同意，请您根据自己的实际感受，如实选择。</p>
+    </div>
+    <form method="POST" action="survey">{% csrf_token %}
+      {% for q in questions %}
+      <div class="form-group">
+        <label for="formGroupExampleInput2">{{ forloop.counter }}. {{q}}</label>
+        <br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+          <label class="form-check-label" for="inlineRadio1">非常不同意</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+          <label class="form-check-label" for="inlineRadio2">不同意</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2">
+          <label class="form-check-label" for="inlineRadio2">不确定</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option2">
+          <label class="form-check-label" for="inlineRadio2">同意</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option2">
+          <label class="form-check-label" for="inlineRadio2">非常同意</label>
+        </div>
+      </div>
+      <br>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary mb-2">提交</button>
+    </form>
+  </div>
+  <!-- {% if survey %}
     <h2>{{survey.title}}</h2>
     <p>{{survey.description}}</>
   {% endif %}
@@ -30,6 +71,6 @@
     </form>
   {% else %}
     <p>No questions are available.</p>
-  {% endif %}
+  {% endif %} -->
 </body>
 <style></style>

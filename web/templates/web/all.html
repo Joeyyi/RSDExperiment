@@ -40,7 +40,8 @@
               {% endfor %}
             </li>
           </ul>
-          <button type="button" class="btn btn-lg btn-block btn-outline-primary"><a href="all/{{store.store_id|cut:'http://www.dianping.com/shop/'}}">查看详情</a></button>
+          <button type="button" class="btn btn-lg btn-outline-primary"><a href="all/{{store.store_id|cut:'http://www.dianping.com/shop/'}}">查看详情</a></button>
+          <button type="button" class="btn btn-lg btn-primary"><a href="survey">选择</a></button>
         </div>
       </div>
     {% endfor %}
@@ -93,5 +94,9 @@ body {
 .form {
   width: 40%;
   margin: 0 auto
+}
+
+.btn-primary a {
+  color: white;
 }
 </style>
