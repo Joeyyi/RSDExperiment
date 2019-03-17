@@ -4,9 +4,32 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 
+from django import forms
+
 from .models import Store, Review, Subject, PreSurvey, Decision, PostSurvey
 
+class SubjectFrom(forms.Form):
+  name = forms.CharField(max_length=20)
+  number = forms.CharField(max_length=10)
+  contact = forms.CharField(max_length=50)
 
+def check_login(func):
+  """
+  查看session值用来判断用户是否已经登录
+  :param func:
+  :return:
+  """
+  def wrapper(request,*args,**kwargs):
+    if request.session.get('username', False):
+      return func(request,*args,**kwargs)
+    else:
+      return HttpResponseRedirect('register')
+
+  return wrapper
+
+
+
+@check_login
 def index(request):
   # stores = Store.objects.all()
   # return HttpResponse(len(stores))
@@ -42,9 +65,11 @@ def register(request):
       return HttpResponseRedirect('instructions')
 
   if request.method == 'POST':
-    u = request.POST.get('username', None)
-    p = request.POST.get('password', None)
-    if(True): # 验证
+    # u = request.POST.get('username', None)
+    # p = request.POST.get('password', None)
+    form = SubjectFrom(request.POST)
+    if form.is_valid(): # 验证
+      login(request, user)
       res = HttpResponseRedirect('instructions')
       res.set_cookie('username',u,max_age=300)
       return res
@@ -68,17 +93,27 @@ def all(request):
   with open("list.json",'r') as load_f:
     list_dict = json.load(load_f)
   context = {'stores': list_dict[:15]}
+  # stores = Store.objects.all()
+  # context = {
+  #   'stores': stores
+  # }
   return render(request, 'web/all.html', context)
 
-def details(request):
-  # import json
-  # with open("list.json",'r') as load_f:
-  #   list_dict = json.load(load_f)
-  #   for(store in list_dict[16:]):
-  #     if(store.store_id)
-  # context = {'stores': list_dict[:15]}
-  # return render(request, 'web/detail.html')
-  return render(request, 'web/start.html')
+def details(request,store_id):
+  import json
+  with open("list.json",'r') as load_f:
+    list_dict = json.load(load_f)
+    context = {
+      'store':{},
+      'reviews': []
+    }
+  for store in list_dict[:15]:
+    if (str(store['store_id'].split('/')[-1]) == str(store_id)):
+      context['store'] = store
+  for review in list_dict[16:]:
+    if (str(review['store_id'].split('/')[-1]) == str(store_id)):
+      context['reviews'].append(review)
+  return render(request, 'web/details.html', context)
 
 def survey(request):
   # survey = Survey.objects.get(id=1)
@@ -116,5 +151,6 @@ def survey(request):
 
 def goodbye(request):
   return render(request, 'web/goodbye.html')
+
 
 

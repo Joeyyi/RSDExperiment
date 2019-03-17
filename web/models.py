@@ -31,10 +31,20 @@ class Review(models.Model):
   review_rec = models.CharField(max_length=50,verbose_name='点评推荐菜',default='')
 
 class Subject(models.Model):
+  GROUP_CHOICES = (
+    ('0','admin'),
+    ('1','1组'),
+    ('2','2组'),
+    ('3','3组'),
+    ('4','4组'),
+  )
   sub_id = models.AutoField(primary_key=True)
+  sub_number = models.CharField(max_length=20,unique=True,verbose_name='被试学号')
   sub_name = models.CharField(max_length=20,verbose_name='被试姓名')
-  sub_email = models.CharField(max_length=50,verbose_name='被试邮箱')
+  sub_contact = models.CharField(max_length=50,default='',verbose_name='被试联系方式')
   sub_created = models.DateTimeField(verbose_name='被试注册时间')
+  sub_group = models.CharField(max_length=1,choices=GROUP_CHOICES,verbose_name='被试组别')
+
   def __str__(self):
     return self.sub_name
 

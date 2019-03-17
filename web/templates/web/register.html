@@ -9,10 +9,19 @@
         <p class="lead">请填写个人信息。</p>
       </div>
     <div class="form">
-      <form action="index" method="POST">{% csrf_token %}
+      <form action="register" method="POST">{% csrf_token %}
         <div class="form-group">
-          <label for="exampleInputPassword1">姓名</label>
-          <input type="password" class="form-control" id="username" placeholder="请输入姓名">
+          <label for="name">姓名</label>
+          <input type="text" class="form-control" id="name" placeholder="请输入姓名">
+        </div>
+        <div class="form-group">
+          <label for="number">学号</label>
+          <input type="text" class="form-control" id="number" placeholder="请输入学号">
+        </div>
+        <div class="form-group">
+          <label for="contact">联系方式</label>
+          <input type="text" class="form-control" id="contect" placeholder="电话/邮箱">
+          <small id="emailHelp" class="form-text text-muted">个人信息仅用于身份识别，不作为实验数据使用。我们将严格保护您的隐私。</small>
         </div>
         <!-- <div class="form-group">
           <label for="exampleInputPassword1">年龄</label>
@@ -25,12 +34,7 @@
             <option>女</option>
           </select>
         </div> -->
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>
       </form>
     </div>
 </body>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<head>
+  <title>store list</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  </head>
+
+<body>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal">DZ点评</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="#">Features</a>
+      <a class="p-2 text-dark" href="#">Enterprise</a>
+      <a class="p-2 text-dark" href="#">Support</a>
+      <a class="p-2 text-dark" href="#">Pricing</a>
+    </nav>
+    <a class="btn btn-outline-primary" href="#">Logout</a>
+  </div>
+
+<div id="toast">
+    <!-- <div class="card mb-4 shadow-sm">
+
+        <div class="card-body">
+          
+          <h2 class="card-title pricing-card-title">这是一条警示信息</h2>
+
+        </div>
+      </div> -->
+      <div class="alert alert-warning" role="alert">
+          这是一条悬浮的警示信息。
+        </div>
+
+        </div>
+
+  <main role="main" class="container">
+    <div class="jumbotron">
+      <h2>{{store.name}}</h2>
+      <h5>评分：{{store.stars}}</h5>
+      <h5>人均：{{store.average}}元</h5>
+      <h5>评价：{{store.num_review}}条</h5>
+      <h5>推荐菜：
+        {% for r in store.recommendation %}
+        <span>{{r}}</span>
+        {%endfor%}
+      </h5>
+      <!-- <p class="lead">This example is a quick exercise to illustrate how the top-aligned navbar works. As you scroll, this navbar remains in its original position and moves with the rest of the page.</p> -->
+      <a class="btn btn-lg btn-primary" href="#review" role="button">查看评价</a>
+    </div>
+  </main>
+  <div class="my-3 p-3 bg-white rounded shadow-sm" id="review">
+    <h6 class="border-bottom border-gray pb-2 mb-0">最新评价</h6>
+    <div class="alert alert-warning" role="alert">
+        这是一条警示信息。
+      </div>
+    {% for review in reviews %}
+    <div class="media text-muted pt-3">
+      <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+        <title>Placeholder</title>
+        <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+      </svg>
+      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <strong class="d-block text-gray-dark">@{{ review.author|cut:"['"|cut:"']" }}<img src="{{ review.level|first }}" style="width:40px;height:13px;"> 评分：{{ review.stars|slice:"1" }}</strong>
+{{ review.text }}
+<strong class="d-block text-gray-dark">评论时间：{{ review.date|first }} | 1人赞了此评价</strong>
+      </p>
+    </div>
+    <!-- <div class="media text-muted pt-3">
+      <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+        <title>Placeholder</title>
+        <rect width="100%" height="100%" fill="#e83e8c" /><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text>
+      </svg>
+      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <strong class="d-block text-gray-dark">@username</strong>
+        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+        condimentum nibh, ut fermentum massa justo sit amet risus.
+      </p>
+    </div>
+    <div class="media text-muted pt-3">
+      <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+        <title>Placeholder</title>
+        <rect width="100%" height="100%" fill="#6f42c1" /><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text>
+      </svg>
+      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <strong class="d-block text-gray-dark">@username</strong>
+        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+        condimentum nibh, ut fermentum massa justo sit amet risus.
+      </p>
+    </div> -->
+    {% endfor %}
+    <small class="d-block text-right mt-3">
+      <a href="#">All updates</a>
+    </small>
+  </div>
+      <!-- <div class="row card-deck mb-3 text-center"> -->
+
+
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row">
+        <div class="col-12 col-md">
+          <img class="mb-2" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+          <small class="d-block mb-3 text-muted">&copy; 2017-2019</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Features</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Cool stuff</a></li>
+            <li><a class="text-muted" href="#">Random feature</a></li>
+            <li><a class="text-muted" href="#">Team feature</a></li>
+            <li><a class="text-muted" href="#">Stuff for developers</a></li>
+            <li><a class="text-muted" href="#">Another one</a></li>
+            <li><a class="text-muted" href="#">Last time</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Resource</a></li>
+            <li><a class="text-muted" href="#">Resource name</a></li>
+            <li><a class="text-muted" href="#">Another resource</a></li>
+            <li><a class="text-muted" href="#">Final resource</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>About</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Team</a></li>
+            <li><a class="text-muted" href="#">Locations</a></li>
+            <li><a class="text-muted" href="#">Privacy</a></li>
+            <li><a class="text-muted" href="#">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+$(function(){
+    $(window).scroll(function(){
+        var scroll_top=$(window).scrollTop();
+        console.log(scroll_top)
+        if(scroll_top>=300){
+            $("#toast").fadeIn();
+        }else{
+            $("#toast").fadeOut();
+        }
+    })
+})
+  </script>
+</body>
+<style>
+  body {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .form {
+    width: 40%;
+    margin: 0 auto
+  }
+
+  #toast {
+    position: fixed;
+    right: 20px;
+  }
+</style>
