@@ -6,12 +6,8 @@ from django.template import loader
 
 from django import forms
 
-from .models import Store, Review, Subject, PreSurvey, Decision, PostSurvey
-
-class SubjectFrom(forms.Form):
-  name = forms.CharField(max_length=20)
-  number = forms.CharField(max_length=10)
-  contact = forms.CharField(max_length=50)
+from .models import Store, Review, Subject, Decision, Survey, Question, Option, Choice
+import random
 
 def check_login(func):
   """
@@ -20,10 +16,10 @@ def check_login(func):
   :return:
   """
   def wrapper(request,*args,**kwargs):
-    if request.session.get('username', False):
+    if request.session.get('is_active', False):
       return func(request,*args,**kwargs)
     else:
-      return HttpResponseRedirect('register')
+      return HttpResponseRedirect('register?mode=error')
 
   return wrapper
 
@@ -31,74 +27,83 @@ def check_login(func):
 
 @check_login
 def index(request):
-  # stores = Store.objects.all()
-  # return HttpResponse(len(stores))
-  context = {
-    'questions': [
-      {
-        'q': '您的性别为：',
-        'c': ['男','女']
-      },
-      {
-        'q': '您的年龄段为：',
-        'c': ['18岁以下','18-25岁','26-35岁','35岁以上']
-      },
-      {
-        'q': '您最近三个月网络购物或使用点评网站（如大众点评）的平均频率为：',
-        'c': ['每周一次或更多','每周一次或更多']
-      },
-      {
-        'q': '您网络购物或使用点评网站时对评论的参考程度为：',
-        'c': ['从不参考','','','','总是参考']
-      },
-    ]
-  }
-  return render(request, 'web/index.html',context)
+  if request.method == 'GET':
+    s = Survey.objects.get(category=1)
+    qlist = Question.objects.filter(survey__id=s.id).order_by('order')
+    for q in qlist:
+      q.options = Option.objects.filter(question=q.id)
+    context = {
+      'survey': s,
+      'qlist': qlist
+    }
+    return render(request, 'web/index.html',context)
+  if request.method == 'POST':
+    pass
+
 
 def register(request):
   if request.method == 'GET':
-    u = request.COOKIES.get('username')
-    if not u:
-      return render(request, 'web/register.html')
-    else:
-      user = request.COOKIES['username']
-      return HttpResponseRedirect('instructions')
+    # context = {
+    #   'mode': request.GET.get('mode', '')
+    # }
+    # u = request.session.get('is_active', False)
+    # if u:
+    #   context.mode = 'loggedin'
+    #   context.user = request.session.get('username')
+    # return render(request, 'web/register.html', context=context)
+    return render(request, 'web/register.html')
 
   if request.method == 'POST':
-    # u = request.POST.get('username', None)
-    # p = request.POST.get('password', None)
-    form = SubjectFrom(request.POST)
-    if form.is_valid(): # 验证
-      login(request, user)
-      res = HttpResponseRedirect('instructions')
-      res.set_cookie('username',u,max_age=300)
-      return res
+    u = request.POST.get('name', None)
+    n = request.POST.get('number', None)
+    c = request.POST.get('contact', None)
+    if u: # 验证
+      s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=random.randint(1,5))
+      s.save()
+      s = Subject.objects.filter(sub_number=n).order_by('-sub_created')[0]
+      request.session.set_expiry(6000)
+      request.session['is_active'] = True
+      request.session['username'] = request.POST['name']
+      request.session['id'] = s.sub_id
+      return HttpResponseRedirect('index')
     else:
-      return HttpResponseRedirect('register')
+      # return HttpResponse(u)
+      return HttpResponseRedirect('register?mode=error')
 
 def logout(request):
-  res = HttpResponseRedirect('register')
-  res.delete_cookie('username')
-  return res
+  request.session.flush()
+  return HttpResponseRedirect('register')
 
+
+@check_login
 def insructions(request):
   return render(request, 'web/instructions.html')
 
+
+@check_login
 def start(request):
   stores = Store.objects.all()
   return render(request, 'web/start.html', {'num':len(stores)})
 
-def all(request):
-  import json
-  with open("list.json",'r') as load_f:
-    list_dict = json.load(load_f)
-  context = {'stores': list_dict[:15]}
-  # stores = Store.objects.all()
-  # context = {
-  #   'stores': stores
-  # }
-  return render(request, 'web/all.html', context)
 
+@check_login
+def all(request):
+  if request.method == "GET":
+    import json
+    with open("list.json",'r') as load_f:
+      list_dict = json.load(load_f)
+    context = {'stores': list_dict[:15]}
+    # stores = Store.objects.all()
+    # context = {
+    #   'stores': stores
+    # }
+    return render(request, 'web/all.html', context)
+  if request.method == "POST":
+    d = Decision(dec_store=request.POST['decision'],dec_user=request.session['id'],dec_time='22')
+    d.save()
+  return HttpResponseRedirect('survey')
+
+@check_login
 def details(request,store_id):
   import json
   with open("list.json",'r') as load_f:
@@ -113,11 +118,18 @@ def details(request,store_id):
   for review in list_dict[16:]:
     if (str(review['store_id'].split('/')[-1]) == str(store_id)):
       context['reviews'].append(review)
+  # context = {}
+  # context['store'] = Store.Objects.get(pk=store_id)
+  # context['reviews'] = Review.Objects.filter(review_store=store_id)
   return render(request, 'web/details.html', context)
 
+
+@check_login
 def survey(request):
-  # survey = Survey.objects.get(id=1)
-  # question_list = Question.objects.filter(survey__id=1)
+  # if request.method == "GET":
+  # group = User.Objects.filter(sub_number=request.session['number']).order_by('sub_created')[-1].sub_group
+  # survey = Survey.Objects.get(category=3,group=group)
+  # question_list = Question.objects.filter(survey__id=survey.id)
   # for q in question_list:
   #   q.options = Option.objects.filter(question=q.id)
   # context = {
@@ -149,6 +161,7 @@ def survey(request):
     }
     return render(request, 'web/survey.html', context)
 
+@check_login
 def goodbye(request):
   return render(request, 'web/goodbye.html')
 

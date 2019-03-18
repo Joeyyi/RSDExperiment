@@ -54,7 +54,10 @@
             </li>
           </ul>
           <button type="button" class="btn btn-lg btn-outline-primary"><a href="all/{{store.store_id|cut:'http://www.dianping.com/shop/'}}">查看详情</a></button>
-          <button type="button" class="btn btn-lg btn-primary"><a href="survey">选择</a></button>
+          <form action="all" method="POST">{% csrf_token %}
+            <input type="hidden" name="decision" value="{{ store.store_id|cut:'http://www.dianping.com/shop/' }}">
+            <button type="submit" class="btn btn-lg btn-primary">选择</button>
+          </form>
         </div>
       </div>
     {% endfor %}

@@ -9,29 +9,33 @@
 <body>
   <div class="container">
     <div class="py-5 text-center">
-      <h2>基本信息调查</h2>
+      <h2>{{ survey.title }}</h2>
     </div>
-    <p class="lead">您好，首先感谢您抽出时间参与此次实验，为我们的研究提供宝贵的实验数据。我们正在进行一项“以在点评网站挑选餐厅为例的，警示信息对用户决策结果以及用户信任程度影响”的研究。</p>
-    <p class="lead">本次实验以匿名的方式进行，不会涉及和透露任何个人隐私，采集到的数据仅做研究用。我们承诺会严格保密实验数据，只展示实验结果的统计数据。由于试验研究结果的准确性取决于您回答的客观性和真实性，请您仔细阅读实验说明以及问卷内容，根据自己的实际情况认真作答。</p>
-    <p class="lead">在实验开始之前，再次感谢您的支持与配合！</p>
+    <p class="lead">{{ survey.description }}</p>
+    <!-- <p class="lead">本次实验以匿名的方式进行，不会涉及和透露任何个人隐私，采集到的数据仅做研究用。我们承诺会严格保密实验数据，只展示实验结果的统计数据。由于试验研究结果的准确性取决于您回答的客观性和真实性，请您仔细阅读实验说明以及问卷内容，根据自己的实际情况认真作答。</p> -->
+    <!-- <p class="lead">在实验开始之前，再次感谢您的支持与配合！</p> -->
     <br>
 
     <form method="POST" action="survey">{% csrf_token %}
-      {% for q in questions %}
+      {% for q in qlist %}
       <div class="form-group">
-        <label for="formGroupExampleInput2">{{ forloop.counter }}. {{q.q}}</label>
+        <label for="{{ q.id }}">{{ forloop.counter }}. {{q.caption}}</label>
         <br>
-        {% for x in q.c %}
+        {% for o in q.options %}
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-          <label class="form-check-label" for="inlineRadio1">{{x}}</label>
+          <label class="form-check-label" for="{{ o.id }}">
+            <input class="form-check-input" type="radio" name="{{ q.id }}" id="{{ o.id }}" value="emmm">
+            {{ o.description }}
+          </label>
         </div>
         {% endfor %}
         <br>
         <br>
       {% endfor %}
       <br>
+      <div class="text-center">
       <a href="instructions"><button type="button" class="btn btn-primary mb-2">提交并继续</button></a>
+      </div>
     </form>
   </div>
   <!-- <div class="form">

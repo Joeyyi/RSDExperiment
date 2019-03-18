@@ -17,33 +17,5 @@
     <button type="button" class="btn btn-primary mb-2"><a href="index">退出</a></button>
 
   </div>
-  <!-- {% if survey %}
-    <h2>{{survey.title}}</h2>
-    <p>{{survey.description}}</>
-  {% endif %}
-  {% if question_list %}
-    <form action="{% url 'index'}" method="POST">
-    {% csrf_token %}
-    {% for q in question_list %}
-        <label for="choice">{{ forloop.counter }}. {{ q.caption }}</label>
-        <br>
-        {% if q.type_question == 1 %}
-          {% for o in q.options %}
-            <input type="radio" name="choice" id="{{ o.id }}" value="{{ o.value }}">
-            <label for="choice">{{ o.description }}</label>
-          {% endfor %}
-        {% else %}
-          {% for o in q.options %}
-            <input type="checkbox" name="choice" id="{{ o.id }}" value="{{ o.value }}">
-            <label for="choice">{{ o.description }}</label>
-          {% endfor %}
-        {% endif %}
-        <br>
-    {% endfor %}
-    <input type="button" value="提交">
-    </form>
-  {% else %}
-    <p>No questions are available.</p>
-  {% endif %} -->
 </body>
 <style></style>

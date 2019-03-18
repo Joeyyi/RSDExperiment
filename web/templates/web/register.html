@@ -4,39 +4,37 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="py-5 text-center">
-        <h2>Welcome!</h2>
-        <p class="lead">请填写个人信息。</p>
+  {% if request.session.is_active %}
+  <p>you are loggedin as: {{ request.session.username }}</p>
+  <a href="instrcutions">proceed to experiment</a>
+  <a href="logout">logout and start as another user</a>
+  {% else %}
+  <div class="py-5 text-center">
+    <h2>Welcome!</h2>
+    <p class="lead">请填写个人信息。</p>
+  </div>
+  <div class="form">
+    {% if request.GET.urlencode and request.GET.mode == 'error' %}
+    <div class="alert alert-warning" role="alert">您必须先登录才能开始实验。</div>
+    {% endif %}
+    <form action="register" method="POST">{% csrf_token %}
+      <div class="form-group">
+        <label for="name">姓名</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名">
       </div>
-    <div class="form">
-      <form action="register" method="POST">{% csrf_token %}
-        <div class="form-group">
-          <label for="name">姓名</label>
-          <input type="text" class="form-control" id="name" placeholder="请输入姓名">
-        </div>
-        <div class="form-group">
-          <label for="number">学号</label>
-          <input type="text" class="form-control" id="number" placeholder="请输入学号">
-        </div>
-        <div class="form-group">
-          <label for="contact">联系方式</label>
-          <input type="text" class="form-control" id="contect" placeholder="电话/邮箱">
-          <small id="emailHelp" class="form-text text-muted">个人信息仅用于身份识别，不作为实验数据使用。我们将严格保护您的隐私。</small>
-        </div>
-        <!-- <div class="form-group">
-          <label for="exampleInputPassword1">年龄</label>
-          <input type="password" class="form-control" id="password" placeholder="请输入年龄">
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">性别</label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>男</option>
-            <option>女</option>
-          </select>
-        </div> -->
-        <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>
-      </form>
-    </div>
+      <div class="form-group">
+        <label for="number">学号</label>
+        <input type="text" class="form-control" id="number" name="number" placeholder="请输入学号">
+      </div>
+      <div class="form-group">
+        <label for="contact">联系方式</label>
+        <input type="text" class="form-control" id="contect" name="contact" placeholder="电话/邮箱">
+        <small id="emailHelp" class="form-text text-muted">个人信息仅用于身份识别，不作为实验数据使用。我们将严格保护您的隐私。</small>
+      </div>
+      <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>
+    </form>
+  </div>
+  {% endif %}
 </body>
 <style>
 body {

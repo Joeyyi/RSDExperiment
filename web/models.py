@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.utils import timezone
+
 # Create your models here.
 
 class Store(models.Model):
@@ -32,38 +34,24 @@ class Review(models.Model):
 
 class Subject(models.Model):
   GROUP_CHOICES = (
-    ('0','admin'),
+    ('0','test'),
     ('1','1组'),
     ('2','2组'),
     ('3','3组'),
     ('4','4组'),
+    ('4','5组'),
+    ('4','6组'),
+    ('4','7组'),
   )
   sub_id = models.AutoField(primary_key=True)
-  sub_number = models.CharField(max_length=20,unique=True,verbose_name='被试学号')
+  sub_number = models.CharField(max_length=20,verbose_name='被试学号')
   sub_name = models.CharField(max_length=20,verbose_name='被试姓名')
   sub_contact = models.CharField(max_length=50,default='',verbose_name='被试联系方式')
-  sub_created = models.DateTimeField(verbose_name='被试注册时间')
+  sub_created = models.DateTimeField(default=timezone.now,verbose_name='被试注册时间')
   sub_group = models.CharField(max_length=1,choices=GROUP_CHOICES,verbose_name='被试组别')
 
   def __str__(self):
     return self.sub_name
-
-class PreSurvey(models.Model):
-  AGE_CHOICES = (
-    ('1','18岁以下'),
-    ('2','18-25岁'),
-    ('3','26-35岁'),
-    ('4','35岁以上')
-  )
-  GENDER_CHOICES = (
-    ('M', '男'),
-    ('F', '女'),
-  )
-  sub_id = models.OneToOneField(Subject,on_delete=models.CASCADE,verbose_name='基本信息被试id',primary_key=True)
-  sub_age = models.CharField(max_length=1,choices=AGE_CHOICES,verbose_name='被试年龄')
-  sub_gender = models.CharField(max_length=1,choices=GENDER_CHOICES,verbose_name='被试性别')
-  sub_frequency = models.CharField(max_length=1,verbose_name='被试网站使用频率')
-  sub_attitude = models.CharField(max_length=1,verbose_name='被试对评论参考程度')
 
 class Decision(models.Model):
   dec_id = models.AutoField(primary_key=True)
@@ -71,10 +59,59 @@ class Decision(models.Model):
   dec_sub = models.OneToOneField(Subject,on_delete=models.CASCADE,verbose_name='决策被试id')
   dec_time = models.IntegerField(verbose_name='决策时间')
 
-class PostSurvey(models.Model):
-  sur_id = models.AutoField(primary_key=True)
-  sur_sub = models.ForeignKey(Subject,to_field='sub_id',on_delete=models.CASCADE,verbose_name='问卷被试id')
-  sub_choice = models.CharField(max_length=50,verbose_name='问卷答案')
+class Survey(models.Model):
+  title = models.CharField(max_length=50,verbose_name='问卷名称')
+  description = models.CharField(max_length=1000,verbose_name='问卷描述')
+  category = models.IntegerField(default=1,verbose_name='问卷类别')
+  group = models.IntegerField(default=0,verbose_name='问卷组别')
+  def __str__(self):
+    return self.title
+
+class Question(models.Model):
+  caption = models.CharField(max_length=500,verbose_name='题目描述')
+  type_question = models.IntegerField(default=1,verbose_name='问题类型')
+  order = models.FloatField(default=0,verbose_name='问题顺序')
+  survey = models.ForeignKey(Survey,on_delete=models.CASCADE,verbose_name='所属问卷')
+  def __str__(self):
+    return self.caption
+
+class Option(models.Model):
+  question = models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name='所属问题')
+  description = models.CharField(max_length=50,verbose_name='选项描述')
+  value = models.IntegerField(verbose_name='选项分值')
+  def __str__(self):
+    return self.description
+
+class Choice(models.Model):
+  subject = models.ForeignKey(Subject,on_delete=models.CASCADE,verbose_name='所属被试')
+  question = models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name='所属问题')
+  option = models.ForeignKey(Option,on_delete=models.CASCADE,verbose_name='回答')
+  def __str__(self):
+    return '%d - %d - %d' % (self.subject.id,self.question.id,self.option.id)
+
+# https://blog.csdn.net/myhuashengmi/article/details/53106301
+
+# class PreSurvey(models.Model):
+#   AGE_CHOICES = (
+#     ('1','18岁以下'),
+#     ('2','18-25岁'),
+#     ('3','26-35岁'),
+#     ('4','35岁以上')
+#   )
+#   GENDER_CHOICES = (
+#     ('M', '男'),
+#     ('F', '女'),
+#   )
+#   sub_id = models.OneToOneField(Subject,on_delete=models.CASCADE,verbose_name='基本信息被试id',primary_key=True)
+#   sub_age = models.CharField(max_length=1,choices=AGE_CHOICES,verbose_name='被试年龄')
+#   sub_gender = models.CharField(max_length=1,choices=GENDER_CHOICES,verbose_name='被试性别')
+#   sub_frequency = models.CharField(max_length=1,verbose_name='被试网站使用频率')
+#   sub_attitude = models.CharField(max_length=1,verbose_name='被试对评论参考程度')
+
+# class PostSurvey(models.Model):
+#   sur_id = models.AutoField(primary_key=True)
+#   sur_sub = models.ForeignKey(Subject,to_field='sub_id',on_delete=models.CASCADE,verbose_name='问卷被试id')
+#   sub_choice = models.CharField(max_length=50,verbose_name='问卷答案')
 
 # class Subject(models.Model):
 #   name = models.CharField(max_length=20,verbose_name='被试姓名')
@@ -84,32 +121,3 @@ class PostSurvey(models.Model):
 #   gender = models.IntegerField(default=1,verbose_name='被试性别')
 #   def __str__(self):
 #     return self.name
-
-# class Survey(models.Model):
-#   title = models.CharField(max_length=50,verbose_name='问卷名称')
-#   description = models.CharField(max_length=1000,verbose_name='问卷描述')
-#   def __str__(self):
-#     return self.title
-
-# class Question(models.Model):
-#   caption = models.CharField(max_length=500,verbose_name='题目描述')
-#   type_question = models.IntegerField(default=1,verbose_name='问题类型')
-#   survey = models.models.ForeignKey(Survey,on_delete=models.CASCADE,verbose_name='所属问卷')
-#   def __str__(self):
-#     return self.caption
-
-# class Option(models.Model):
-#   question = models.models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name='所属问题')
-#   description = models.CharField(max_length=50,verbose_name='选项描述')
-#   value = models.IntegerField(verbose_name='选项分值')
-#   def __str__(self):
-#     return self.description
-
-# class Choice(models.Model):
-#   subject = models.models.ForeignKey(Subject,on_delete=models.CASCADE,verbose_name='所属被试')
-#   question = models.models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name='所属问题')
-#   option = models.models.ForeignKey(Option,on_delete=models.CASCADE,verbose_name='回答')
-#   def __str__(self):
-#     return '%d - %d - %d' % (self.subject.id,self.question.id,self.option.id)
-
-# https://blog.csdn.net/myhuashengmi/article/details/53106301
