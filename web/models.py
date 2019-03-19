@@ -57,7 +57,7 @@ class Decision(models.Model):
   dec_id = models.AutoField(primary_key=True)
   dec_store = models.ForeignKey(Store,to_field='store_id',on_delete=models.CASCADE,verbose_name='点评商户')
   dec_sub = models.OneToOneField(Subject,on_delete=models.CASCADE,verbose_name='决策被试id')
-  dec_time = models.IntegerField(verbose_name='决策时间')
+  dec_duration = models.FloatField(default=0,verbose_name='决策时间')
 
 class Survey(models.Model):
   title = models.CharField(max_length=50,verbose_name='问卷名称')

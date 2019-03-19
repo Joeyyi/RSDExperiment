@@ -9,68 +9,36 @@
 
 <body>
   <div class="container">
+
     <div class="py-5 text-center">
-      <h2>实验问卷</h2>
-      <p class="lead">以下问题均有五个选项，非常不同意、不同意、不确定、同意、非常同意，请您根据自己的实际感受，如实选择。</p>
+      <h2>{{ survey.title }}</h2>
     </div>
+    <p class="lead">{{ survey.description }}</p>
+    <br>
     <form method="POST" action="survey">{% csrf_token %}
-      {% for q in questions %}
+      {% for q in qlist %}
       <div class="form-group">
-        <label for="formGroupExampleInput2">{{ forloop.counter }}. {{q}}</label>
+        <label for="{{ q.id }}">{{ forloop.counter }}. {{q.caption}}</label>
         <br>
+        {% for o in q.options %}
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-          <label class="form-check-label" for="inlineRadio1">非常不同意</label>
+          <label class="form-check-label" for="{{ o.id }}">
+            <input class="form-check-input" type="radio" name="{{ q.id }}" id="{{ o.id }}" value="{{ o.id }}">
+            --value是值，name是控件名
+            {{ o.description }}
+          </label>
         </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-          <label class="form-check-label" for="inlineRadio2">不同意</label>
+        {% endfor %}
+        <br>
+        <br>
+        {% endfor %}
+        <br>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary mb-2">提交并继续</button>
         </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2">
-          <label class="form-check-label" for="inlineRadio2">不确定</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option2">
-          <label class="form-check-label" for="inlineRadio2">同意</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option2">
-          <label class="form-check-label" for="inlineRadio2">非常同意</label>
-        </div>
-      </div>
-      <br>
-      {% endfor %}
-      <button type="submit" class="btn btn-primary mb-2">提交</button>
     </form>
+
   </div>
-  <!-- {% if survey %}
-    <h2>{{survey.title}}</h2>
-    <p>{{survey.description}}</>
-  {% endif %}
-  {% if question_list %}
-    <form action="{% url 'index'}" method="POST">
-    {% csrf_token %}
-    {% for q in question_list %}
-        <label for="choice">{{ forloop.counter }}. {{ q.caption }}</label>
-        <br>
-        {% if q.type_question == 1 %}
-          {% for o in q.options %}
-            <input type="radio" name="choice" id="{{ o.id }}" value="{{ o.value }}">
-            <label for="choice">{{ o.description }}</label>
-          {% endfor %}
-        {% else %}
-          {% for o in q.options %}
-            <input type="checkbox" name="choice" id="{{ o.id }}" value="{{ o.value }}">
-            <label for="choice">{{ o.description }}</label>
-          {% endfor %}
-        {% endif %}
-        <br>
-    {% endfor %}
-    <input type="button" value="提交">
-    </form>
-  {% else %}
-    <p>No questions are available.</p>
-  {% endif %} -->
+
 </body>
 <style></style>
