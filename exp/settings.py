@@ -81,11 +81,11 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'review',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'NAME': os.environ['DB_NAME'] if hasattr(os.environ, 'DB_NAME') else 'review',
+        'USER': os.environ['DB_USER'] if hasattr(os.environ, 'DB_USER') else 'root',
+        'PASSWORD': os.environ['DB_PW'] if hasattr(os.environ, 'DB_PW') else 'root',
+        'HOST': os.environ['DB_HOST'] if hasattr(os.environ, 'DB_HOST') else 'localhost',
+        'PORT': os.environ['DB_PORT'] if hasattr(os.environ, 'DB_PORT') else '3306'
     }
 }
 
