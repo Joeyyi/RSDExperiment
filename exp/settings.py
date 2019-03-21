@@ -25,7 +25,8 @@ SECRET_KEY = '1tvs=)tf3&@42+d37!jxxxvy^$01lcs6ll+vym@m5@5$3f$6$g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,11 +82,11 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ['DB_NAME'] if hasattr(os.environ, 'DB_NAME') else 'review',
-        'USER': os.environ['DB_USER'] if hasattr(os.environ, 'DB_USER') else 'root',
-        'PASSWORD': os.environ['DB_PW'] if hasattr(os.environ, 'DB_PW') else 'root',
-        'HOST': os.environ['DB_HOST'] if hasattr(os.environ, 'DB_HOST') else 'localhost',
-        'PORT': os.environ['DB_PORT'] if hasattr(os.environ, 'DB_PORT') else '3306'
+        'NAME': os.environ.get('DB_NAME','review'),
+        'USER': os.environ.get('DB_USER','root'),
+        'PASSWORD': os.environ.get('DB_PW','root'),
+        'HOST': os.environ.get('DB_HOST','localhost'),
+        'PORT': os.environ.get('DB_PORT','3306')
     }
 }
 
