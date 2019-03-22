@@ -108,7 +108,7 @@ def all(request):
   if request.method == "POST":
     print(datetime.now())
     print(datetime.strptime(request.session['start'],"%Y-%m-%d %H:%M:%S.%f"))
-    duration = (datetime.now() - datetime.strptime(request.session['start'],"%Y-%m-%d")).total_seconds()
+    duration = (datetime.now() - datetime.strptime(request.session['start'],"%Y-%m-%d %H:%M:%S.%f")).total_seconds()
     d = Decision(dec_store=Store.objects.get(pk=request.POST['decision']),dec_sub=Subject.objects.get(pk=request.session['id']),dec_duration=duration)
     d.save()
   return HttpResponseRedirect('survey')
