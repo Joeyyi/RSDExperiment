@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
 
 from django import forms
 
@@ -22,6 +23,7 @@ def check_login(func):
     if request.session.get('is_active', False):
       return func(request,*args,**kwargs)
     else:
+      return func(request,*args,**kwargs)
       return HttpResponseRedirect('register?mode=error')
 
   return wrapper
@@ -97,10 +99,13 @@ def all(request):
     import json
     with open("list.json",'r') as load_f:
       list_dict = json.load(load_f)
-    context = {'stores': list_dict[:15]}
+    context = {'stores': list_dict[:15], 'user': {'userid': request.session.get('id', None)}}
     # stores = Store.objects.all()
     # context = {
-    #   'stores': stores
+    #   'stores': stores,
+        # 'user': {
+        #   'userid': request.session.get('id', None)
+        # }
     # }
     request.session['start'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
@@ -119,6 +124,10 @@ def details(request,store_id):
   with open("list.json",'r') as load_f:
     list_dict = json.load(load_f)
     context = {
+      'user': {
+        'setting': request.GET.get('setting', '1'),
+        'userid': request.session.get('id', None)
+      },
       'store':{},
       'reviews': []
     }
@@ -180,6 +189,11 @@ def goodbye(request):
   #     ]
   #   }
 
+@csrf_exempt
+@check_login
+def log(request):
+  print(request.POST)
+  return HttpResponse('a')
 
 
 

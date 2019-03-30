@@ -2,33 +2,55 @@
 <head>
   <title>store list</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script> -->
-  <!-- <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-	<!-- <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"> -->
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script><script src="/docs/4.3/assets/js/docs.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">DZ点评</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-dark" href="#">Features</a>
-      <a class="p-2 text-dark" href="#">Enterprise</a>
-      <a class="p-2 text-dark" href="#">Support</a>
-      <a class="p-2 text-dark" href="#">Pricing</a>
-    </nav>
-    <a class="btn btn-outline-primary" href="#">Logout</a>
-  </div>
-  
+<script>
+  $(function(){
+    $('#confirm').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var name = button.data('name') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-body p').text('你选择的是：' + name + '。确认推荐这家餐厅给Jason吗？')
+    })
+  })
+  function confirm(sid) {
+    $.post("/exp/log", {
+      msg: 'info_hidden',
+      user: '{{ user.userid }}'
+    }).done(function(data) {
+      window.location.href = '/exp/survey'
+    })
+  }
+</script>
+  <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">操作确认</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="font-weight-bold">你选择的是：无</p>
+          <small>点击确认后将无法更改你的选择。请确保这是已经浏览了所有商铺后做出的最终决定。</small>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">我再想想</button>
+          <button type="button" class="btn btn-primary" onclick="confirm('{{ store.store_id }}')">确认</button>
+        </div>
+      </div>
+    </div>
+  </div> 
+
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">川菜</h1>
-    <p class="lead">都是川菜。</p>
+    <h1 class="display-4">实验</h1>
+    <p class="lead">请你blablabla</p>
   </div>
 
 
@@ -36,9 +58,32 @@
   <div class="container">
     <div class="row card-deck">
     <!-- <div class="row card-deck mb-3 text-center"> -->
+
       {% for store in stores %}
+      <div class="col-sm-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ store.name }}</h5>
+              <p>{% with ''|center:store.stars as range %}{% for _ in range %}★{% endfor %}{% endwith %} / {{ store.num_review }}条评论</p>
+              <p class="card-text">人均：{{ store.average }}元</p>
+              {% if store.recommendation %}
+              <p>推荐菜：{{ store.recommendation|join:", " }}</p>
+              {% endif %}
+              <p class="card-text">介绍介绍</p>
+              <div class="d-flex justify-content-between">
+                <a role="button" class="btn btn-sm btn-outline-primary" href="all/{{store.store_id|cut:'http://www.dianping.com/shop/'}}">查看详情</a>
+                <form action="all" method="POST">{% csrf_token %}
+                  <input type="hidden" name="msg" value="{{ store.store_id }}">
+                  <button type="button" data-name="{{ store.name }}" data-id="{{ store.store_id }}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#confirm">选择</button>
+                </form>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+
+      <!-- {% for store in stores %}
       <div class="col-md-4 mb-4">
-      <!-- <div class="col-md-4 card mb-4 shadow-sm"> -->
         <div class="card-header">
           <h4 class="my-0 font-weight-normal">{{ store.name }}</h4>
         </div>
@@ -47,10 +92,7 @@
           <ul class="list-unstyled mt-3 mb-4">
             <li>人均：{{ store.average }}</li>
             <li>
-              <span>推荐菜：</span>
-              {% for rec in store.recommendation %}
-              <span>{{rec}} </span>
-              {% endfor %}
+推荐菜：{{ store.recommendation|join:", " }}
             </li>
           </ul>
           <button type="button" class="btn btn-lg btn-outline-primary"><a href="all/{{store.store_id|cut:'http://www.dianping.com/shop/'}}">查看详情</a></button>
@@ -60,7 +102,7 @@
           </form>
         </div>
       </div>
-    {% endfor %}
+    {% endfor %} -->
     </div>
   
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
@@ -115,4 +157,12 @@ body {
 .btn-primary a {
   color: white;
 }
+
+.btn-primary a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+
+
 </style>

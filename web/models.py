@@ -18,6 +18,7 @@ class Store(models.Model):
   store_envir = models.CharField(max_length=5,verbose_name='商户环境分',default='8.5')
   store_service = models.CharField(max_length=5,verbose_name='商户服务分',default='8.5')
   store_phone = models.CharField(max_length=30,verbose_name='商户电话',default='暂无电话')
+  store_pic = models.URLField(max_length=300,verbose_name='商户图片',default='')
 
 class Review(models.Model):
   review_id = models.AutoField(primary_key=True)
@@ -28,7 +29,8 @@ class Review(models.Model):
   review_flavor = models.IntegerField(verbose_name='点评口味分',default=5)
   review_envir = models.IntegerField(verbose_name='点评环境分',default=5)
   review_service = models.IntegerField(verbose_name='点评服务分',default=5)
-  review_date = models.CharField(max_length=500,verbose_name='点评日期',default='2019-01-01')
+  review_date = models.CharField(max_length=100,verbose_name='点评日期',default='2019-01-01')
+  review_text = models.CharField(max_length=500,verbose_name='点评内容',default='该用户没有评价')
   review_likes = models.IntegerField(verbose_name='点评点赞数',default=7)
   review_rec = models.CharField(max_length=50,verbose_name='点评推荐菜',default='')
 
