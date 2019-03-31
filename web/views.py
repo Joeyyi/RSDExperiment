@@ -78,8 +78,8 @@ def logout(request):
   request.session.flush()
   return HttpResponseRedirect('register')
 
-@log_visit
 @check_login
+@log_visit
 def index(request):
   if request.method == 'GET':
     s = Survey.objects.get(category=1)
@@ -101,19 +101,19 @@ def index(request):
       ch.save()
     return HttpResponseRedirect('instructions')
 
-@log_visit
 @check_login
+@log_visit
 def insructions(request):
   return render(request, 'web/instructions.html')
 
-@log_visit
 @check_login
+@log_visit
 def start(request):
   stores = Store.objects.all()
   return render(request, 'web/start.html', {'num':len(stores)})
 
-@log_visit
 @check_login
+@log_visit
 def all(request):
   if request.method == "GET":
     import json
@@ -138,8 +138,8 @@ def all(request):
     d.save()
   return HttpResponseRedirect('survey')
 
-@log_visit
 @check_login
+@log_visit
 def details(request,store_id):
   import json
   with open("list.json",'r') as load_f:
@@ -163,8 +163,8 @@ def details(request,store_id):
   # context['reviews'] = Review.Objects.filter(review_store=store_id)
   return render(request, 'web/details.html', context)
 
-@log_visit
 @check_login
+@log_visit
 def survey(request):
   if request.method == "GET":
     s = Subject.objects.get(pk=request.session['id'])
@@ -188,8 +188,8 @@ def survey(request):
       ch.save()
     return HttpResponseRedirect('goodbye')
 
-@log_visit
 @check_login
+@log_visit
 def goodbye(request):
   return render(request, 'web/goodbye.html')
   # else:

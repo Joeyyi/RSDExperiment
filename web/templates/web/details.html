@@ -27,7 +27,7 @@
           $.post("/exp/log", {
             action: 'warning',
             value: 'shown',
-            user: '{{ user.userid }}'
+            userid: '{{ user.userid }}'
           });
           $('#toggle').text('[ - ] 点击隐藏建议')
         })
@@ -35,7 +35,7 @@
           $.post("/exp/log", {
             action: 'warning',
             value: 'hidden',
-            user: '{{ user.userid }}'
+            userid: '{{ user.userid }}'
           });
           $('#toggle').text('[+] 点击查看建议')
         })
@@ -197,7 +197,7 @@ $(function(){
         $.post("/exp/log", {
             action: 'all review',
             value: '{{ request.path }}',
-            user: '{{ user.userid }}'
+            userid: '{{ user.userid }}'
         }).done(function(Data) {
           has_reached_bottom = true;
         });
