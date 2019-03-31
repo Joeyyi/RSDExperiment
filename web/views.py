@@ -116,17 +116,17 @@ def start(request):
 @log_visit
 def all(request):
   if request.method == "GET":
-    import json
-    with open("list.json",'r') as load_f:
-      list_dict = json.load(load_f)
-    context = {'stores': list_dict[:15], 'user': {'userid': request.session.get('id', None)}}
-    # stores = Store.objects.all()
-    # context = {
-    #   'stores': stores,
-        # 'user': {
-        #   'userid': request.session.get('id', None)
-        # }
-    # }
+    # import json
+    # with open("list.json",'r') as load_f:
+    #   list_dict = json.load(load_f)
+    # context = {'stores': list_dict[:15], 'user': {'userid': request.session.get('id', None)}}
+    stores = Store.objects.all()
+    context = {
+      'stores': stores,
+        'user': {
+          'userid': request.session.get('id', None)
+        }
+    }
     request.session['start'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
     return render(request, 'web/all.html', context)
@@ -141,26 +141,27 @@ def all(request):
 @check_login
 @log_visit
 def details(request,store_id):
-  import json
-  with open("list.json",'r') as load_f:
-    list_dict = json.load(load_f)
-    context = {
-      'user': {
-        'setting': request.GET.get('setting') if request.GET.get('setting') else request.session.get('group'),
-        'userid': request.session.get('id', None)
-      },
-      'store':{},
-      'reviews': []
-    }
-  for store in list_dict[:15]:
-    if (str(store['store_id'].split('/')[-1]) == str(store_id)):
-      context['store'] = store
-  for review in list_dict[16:]:
-    if (str(review['store_id'].split('/')[-1]) == str(store_id)):
-      context['reviews'].append(review)
-  # context = {}
-  # context['store'] = Store.Objects.get(pk=store_id)
-  # context['reviews'] = Review.Objects.filter(review_store=store_id)
+  # import json
+  # with open("list.json",'r') as load_f:
+  #   list_dict = json.load(load_f)
+  context = {
+    'user': {
+      'setting': request.GET.get('setting') if request.GET.get('setting') else request.session.get('group'),
+      'userid': request.session.get('id', None)
+    },
+    'store':{},
+    'reviews': []
+  }
+  # for store in list_dict[:15]:
+  #   if (str(store['store_id'].split('/')[-1]) == str(store_id)):
+  #     context['store'] = store
+  # for review in list_dict[16:]:
+  #   if (str(review['store_id'].split('/')[-1]) == str(store_id)):
+  #     context['reviews'].append(review)
+
+  s = Store.objects.get(pk=store_id)
+  context['store'] = s
+  context['reviews'] = Review.objects.filter(review_store=s)
   return render(request, 'web/details.html', context)
 
 @check_login
