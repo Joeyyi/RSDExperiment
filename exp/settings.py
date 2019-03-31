@@ -130,3 +130,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/exp/register'
+
+SESSION_SAVE_EVERY_REQUEST = True

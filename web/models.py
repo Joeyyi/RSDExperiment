@@ -89,7 +89,14 @@ class Choice(models.Model):
   question = models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name='所属问题')
   option = models.ForeignKey(Option,on_delete=models.CASCADE,verbose_name='回答')
   def __str__(self):
-    return '%d - %d - %d' % (self.subject.id,self.question.id,self.option.id)
+    return '%s - %s - %s' % (self.subject.sub_name,self.question.caption,self.option.description)
+class Log(models.Model):
+  subject = models.ForeignKey(Subject,on_delete=models.CASCADE,verbose_name='所属被试')
+  time = models.CharField(max_length=50,verbose_name='日志时间')
+  action = models.CharField(max_length=50,verbose_name='行为')
+  value = models.CharField(max_length=50,verbose_name='值')
+  def __str__(self):
+    return f'[{self.time}] {self.subject} - {self.action} - {self.value}'
 
 # https://blog.csdn.net/myhuashengmi/article/details/53106301
 

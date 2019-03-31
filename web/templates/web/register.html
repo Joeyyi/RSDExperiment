@@ -5,9 +5,9 @@
 </head>
 <body>
   {% if request.session.is_active %}
-  <p>you are loggedin as: {{ request.session.username }}</p>
-  <a href="instrcutions">proceed to experiment</a>
-  <a href="logout">logout and start as another user</a>
+  <p>当前登录用户: {{ request.session.username }}</p>
+  <a role="button" class="btn btn-sm btn-primary" href="index">继续实验</a>
+  <a role="button" class="btn btn-sm btn-primary" href="logout">退出登录</a>
   {% else %}
   <div class="py-5 text-center">
     <h2>Welcome!</h2>

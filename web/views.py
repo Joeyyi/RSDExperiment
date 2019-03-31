@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django import forms
 
-from .models import Store, Review, Subject, Decision, Survey, Question, Option, Choice
+from .models import Store, Review, Subject, Decision, Survey, Question, Option, Choice, Log
 import random
 from datetime import datetime, timedelta
 
@@ -30,6 +30,9 @@ def check_login(func):
 def logger(userid,action,value=None):
   time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
   print(f'{userid}/{action}/{value}/{time}')
+  s = Subject.objects.get(pk=userid)
+  l = Log(subject=s, action=action, value=value, time=time)
+  l.save()
 
 def log_visit(func):
   def timed(request,*args, **kw):
@@ -61,7 +64,7 @@ def register(request):
       s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=random.randint(1,5))
       s.save()
       s = Subject.objects.filter(sub_number=n).order_by('-sub_created')[0]
-      request.session.set_expiry(60000)
+      request.session.set_expiry(600)
       request.session['is_active'] = True
       request.session['username'] = request.POST['name']
       request.session['id'] = s.sub_id
@@ -91,8 +94,9 @@ def index(request):
   if request.method == 'POST':
     s = Survey.objects.get(category=1)
     qlist = Question.objects.filter(survey__id=s.id).order_by('order')
+    print(request.POST)
     for q in qlist:
-      ans = request.POST[f"q{q.id}"]
+      ans = request.POST[f"{q.id}"]
       ch = Choice(subject=Subject.objects.get(pk=request.session['id']),question=q,option=Option.objects.get(pk=ans))
       ch.save()
     return HttpResponseRedirect('instructions')
@@ -142,7 +146,7 @@ def details(request,store_id):
     list_dict = json.load(load_f)
     context = {
       'user': {
-        'setting': request.GET.get('setting', '1'),
+        'setting': request.GET.get('setting') if request.GET.get('setting') else request.session.get('group'),
         'userid': request.session.get('id', None)
       },
       'store':{},
@@ -179,7 +183,7 @@ def survey(request):
     survey = Survey.objects.get(category=3,group=s.sub_group)
     qlist = Question.objects.filter(survey__id=survey.id).order_by('order')
     for q in qlist:
-      ans = request.POST[f"q{q.id}"]
+      ans = request.POST[f"{q.id}"]
       ch = Choice(subject=Subject.objects.get(pk=request.session['id']),question=q,option=Option.objects.get(pk=ans))
       ch.save()
     return HttpResponseRedirect('goodbye')

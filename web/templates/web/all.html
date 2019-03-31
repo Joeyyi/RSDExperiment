@@ -70,9 +70,8 @@
               <p>{% with ''|center:store.stars as range %}{% for _ in range %}★{% endfor %}{% endwith %} / {{ store.num_review }}条评论</p>
               <p class="card-text">人均：{{ store.average }}元</p>
               {% if store.recommendation %}
-              <p>推荐菜：{{ store.recommendation|join:", " }}</p>
+              <p>介绍：{{ store.recommendation }}</p>
               {% endif %}
-              <p class="card-text">介绍介绍</p>
               <div class="d-flex justify-content-between">
                 <a role="button" class="btn btn-sm btn-outline-primary" href="all/{{store.store_id|cut:'http://www.dianping.com/shop/'}}">查看详情</a>
                 <form action="all" method="POST">{% csrf_token %}
