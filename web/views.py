@@ -23,11 +23,23 @@ def check_login(func):
     if request.session.get('is_active', False):
       return func(request,*args,**kwargs)
     else:
-      return func(request,*args,**kwargs)
       return HttpResponseRedirect('register?mode=error')
 
   return wrapper
 
+def logger(userid,action,value=None):
+  time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+  print(f'{userid}/{action}/{value}/{time}')
+
+def log_visit(func):
+  def timed(request,*args, **kw):
+    result = func(request, *args, **kw)
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+    logger(userid=request.session.get('id', None), action='visit', value=request.path)
+
+    return result
+
+  return timed
 
 def register(request):
   if request.method == 'GET':
@@ -49,7 +61,7 @@ def register(request):
       s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=random.randint(1,5))
       s.save()
       s = Subject.objects.filter(sub_number=n).order_by('-sub_created')[0]
-      request.session.set_expiry(6000)
+      request.session.set_expiry(60000)
       request.session['is_active'] = True
       request.session['username'] = request.POST['name']
       request.session['id'] = s.sub_id
@@ -63,6 +75,7 @@ def logout(request):
   request.session.flush()
   return HttpResponseRedirect('register')
 
+@log_visit
 @check_login
 def index(request):
   if request.method == 'GET':
@@ -84,15 +97,18 @@ def index(request):
       ch.save()
     return HttpResponseRedirect('instructions')
 
+@log_visit
 @check_login
 def insructions(request):
   return render(request, 'web/instructions.html')
 
+@log_visit
 @check_login
 def start(request):
   stores = Store.objects.all()
   return render(request, 'web/start.html', {'num':len(stores)})
 
+@log_visit
 @check_login
 def all(request):
   if request.method == "GET":
@@ -118,6 +134,7 @@ def all(request):
     d.save()
   return HttpResponseRedirect('survey')
 
+@log_visit
 @check_login
 def details(request,store_id):
   import json
@@ -142,6 +159,7 @@ def details(request,store_id):
   # context['reviews'] = Review.Objects.filter(review_store=store_id)
   return render(request, 'web/details.html', context)
 
+@log_visit
 @check_login
 def survey(request):
   if request.method == "GET":
@@ -166,6 +184,7 @@ def survey(request):
       ch.save()
     return HttpResponseRedirect('goodbye')
 
+@log_visit
 @check_login
 def goodbye(request):
   return render(request, 'web/goodbye.html')
@@ -192,7 +211,7 @@ def goodbye(request):
 @csrf_exempt
 @check_login
 def log(request):
-  print(request.POST)
+  logger(userid=request.POST.get('userid', None), action=request.POST.get('action', None), value=request.POST.get('value', None))
   return HttpResponse('a')
 
 

@@ -8,20 +8,23 @@
 </head>
 <body>
 <script>
+  var choice = 'not defined';
   $(function(){
     $('#confirm').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
       var name = button.data('name') // Extract info from data-* attributes
+      choice = button.data('id');
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
       modal.find('.modal-body p').text('你选择的是：' + name + '。确认推荐这家餐厅给Jason吗？')
     })
   })
-  function confirm(sid) {
+  function confirm() {
     $.post("/exp/log", {
-      msg: 'info_hidden',
-      user: '{{ user.userid }}'
+      action: 'choice',
+      value: choice,
+      userid: '{{ user.userid }}'
     }).done(function(data) {
       window.location.href = '/exp/survey'
     })
@@ -42,7 +45,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">我再想想</button>
-          <button type="button" class="btn btn-primary" onclick="confirm('{{ store.store_id }}')">确认</button>
+          <button type="button" class="btn btn-primary" onclick="confirm()">确认</button>
         </div>
       </div>
     </div>

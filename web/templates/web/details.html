@@ -3,10 +3,7 @@
 <head>
   <title>{{store.name}} - 评分，点评，商户信息 | xx点评网</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
@@ -28,14 +25,16 @@
       $(function(){
         $('#collapsible5').on('shown.bs.collapse',function () {
           $.post("/exp/log", {
-            msg: 'info_shown',
+            action: 'warning',
+            value: 'shown',
             user: '{{ user.userid }}'
           });
           $('#toggle').text('[ - ] 点击隐藏建议')
         })
         $('#collapsible5').on('hidden.bs.collapse', function () {
           $.post("/exp/log", {
-            msg: 'info_hidden',
+            action: 'warning',
+            value: 'hidden',
             user: '{{ user.userid }}'
           });
           $('#toggle').text('[+] 点击查看建议')
@@ -150,7 +149,7 @@
     </div>
     {% endfor %}
 
-    <small class="d-block text-right mt-3"><a href="#">返回顶部</a></small>
+    <small class="d-block text-right mt-3" id="backtotop"><a href="#">返回顶部</a></small>
 
   </div>
       <!-- <div class="row card-deck mb-3 text-center"> -->
@@ -190,15 +189,19 @@
   </div>
 
   <script>
+  var has_reached_bottom = false;
 $(function(){
     $(window).scroll(function(){
-        var scroll_top=$(window).scrollTop();
-        console.log(scroll_top)
-        if(scroll_top>=300){
-            $("#toast").fadeIn();
-        }else{
-            $("#toast").fadeOut();
-        }
+      h = $("#backtotop").offset().top-$(document).scrollTop() - $(window).height();
+      if(h<0 && !has_reached_bottom) {
+        $.post("/exp/log", {
+            action: 'all review',
+            value: '{{ request.path }}',
+            user: '{{ user.userid }}'
+        }).done(function(Data) {
+          has_reached_bottom = true;
+        });
+      }
     })
 })
   </script>
