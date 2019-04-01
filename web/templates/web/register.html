@@ -20,15 +20,15 @@
     <form action="register" method="POST">{% csrf_token %}
       <div class="form-group">
         <label for="name">姓名</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名">
+        <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" required>
       </div>
       <div class="form-group">
         <label for="number">学号</label>
-        <input type="text" class="form-control" id="number" name="number" placeholder="请输入学号">
+        <input type="text" class="form-control" id="number" name="number" placeholder="请输入学号"required>
       </div>
       <div class="form-group">
         <label for="contact">联系方式</label>
-        <input type="text" class="form-control" id="contect" name="contact" placeholder="电话/邮箱">
+        <input type="text" class="form-control" id="contect" name="contact" placeholder="电话/邮箱" required>
         <small id="emailHelp" class="form-text text-muted">个人信息仅用于身份识别，不作为实验数据使用。我们将严格保护您的隐私。</small>
       </div>
       <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>

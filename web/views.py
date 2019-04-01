@@ -69,6 +69,7 @@ def register(request):
       request.session['username'] = request.POST['name']
       request.session['id'] = s.sub_id
       request.session['group'] = s.sub_group
+      request.session['seed'] = random.randint(0,100)
       return HttpResponseRedirect('index')
     else:
       # return HttpResponse(u)
@@ -120,7 +121,9 @@ def all(request):
     # with open("list.json",'r') as load_f:
     #   list_dict = json.load(load_f)
     # context = {'stores': list_dict[:15], 'user': {'userid': request.session.get('id', None)}}
-    stores = Store.objects.all()
+    stores = list(Store.objects.all())
+    random.seed(request.session.get('seed', random.randint(0,100)))
+    random.shuffle(stores)
     context = {
       'stores': stores,
         'user': {
@@ -161,7 +164,10 @@ def details(request,store_id):
 
   s = Store.objects.get(pk=store_id)
   context['store'] = s
-  context['reviews'] = Review.objects.filter(review_store=s)
+  r = list(Review.objects.filter(review_store=s))
+  random.seed(request.session.get('seed', random.randint(0,100)))
+  random.shuffle(r)
+  context['reviews'] = r
   return render(request, 'web/details.html', context)
 
 @check_login
