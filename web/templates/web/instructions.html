@@ -1,22 +1,400 @@
 <!DOCTYPE html>
 <head>
-  <title>instructions</title>
+  <title>实验指导</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
+  <div class="modal modal-open" style="display: block;background-color: #000; opacity: 0.4;"></div>
+  <div class="step0">
     <div class="container">
-        <div class="py-5 text-center">
-          <h2>实验指导</h2>
-          <p>you are logged in as: {{request.session.username}}</p>
-        </div>
-        <p class="lead">网友A在点评网站上挑选出了几家餐厅，这些餐厅的评分、菜式、价位、地理位置等各种因素他都同样满意，这让他很难做出选择。他想请你帮忙，通过阅读餐厅评论，选择出你认为其中最好的餐厅。</p>
-        <br>
-        <div class="text-center">
-          <a href="all"><button type="button" class="btn btn-primary mb-2">开始实验</button></a>
-        </div>
-    
+      <div class="py-5 text-center">
+        <h2>实验指导</h2>
       </div>
+      <p class="lead">网友A在点评网站上挑选出了几家餐厅，这些餐厅的评分、菜式、价位、地理位置等各种因素他都同样满意，这让他很难做出选择。他想请你帮忙，通过阅读餐厅评论，选择出你认为其中最好的餐厅。</p>
+      <br>
+      <div class="text-center">
+        <a id="step0button" href="#"><button type="button" class="btn btn-primary mb-2">查看实验指导</button></a>
+        <a id="next" href="all"
+        data-container="body" data-toggle="popover" data-placement="bottom" data-content="实验指导结束。点击按钮正式开始实验"
+        ><button type="button" class="btn btn-primary mb-2">开始实验</button></a>
+      </div> 
+    </div>
+  </div>
+  <div class="step1">
+    <div class="container">
+        <div class="row card-deck">
+        <!-- <div class="row card-deck mb-3 text-center"> -->
+    
+          
+          <div class="col-sm-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">映水芙蓉(百盛淮海路店)</h5>
+                  <p>5.0 / 6条评论</p>
+                  
+                  <p class="card-text">人均：77元</p>
+                  
+                  <p>介绍：暂无地址</p>
+                  
+                  <div class="d-flex justify-content-between">
+                    <a role="button" id="step1button" class="btn btn-sm btn-outline-primary" href="#"
+                    data-container="body" data-toggle="popover" data-placement="right" data-content="点击查看商户详情和评价"
+                    >查看详情</a>
+                    <form action="all" method="POST"><input type="hidden" name="csrfmiddlewaretoken" value="829ww7uzPX00yPevXpa2XSYTDWCVEeR4MhNaVZvH9U8s5Uzur95WpwqTIVKVi2yw">
+                      <input type="hidden" name="msg" value="102292618">
+                      <button type="button" id="step3button data-name="映水芙蓉(百盛淮海路店)" data-id="102292618" class="btn btn-sm btn-primary"
+                      data-container="body" data-toggle="popover" data-placement="right" data-content="将此商户推荐给Jason"
+                      >选择</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-sm-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">胡桃里音乐酒馆(118广场店)</h5>
+                  <p>4.5 / 6条评论</p>
+                  
+                  <p class="card-text">人均：77元</p>
+                  
+                  <p>介绍：暂无地址</p>
+                  
+                  <div class="d-flex justify-content-between">
+                    <a role="button" class="btn btn-sm btn-outline-primary" href="all/105479882">查看详情</a>
+                    <form action="all" method="POST"><input type="hidden" name="csrfmiddlewaretoken" value="829ww7uzPX00yPevXpa2XSYTDWCVEeR4MhNaVZvH9U8s5Uzur95WpwqTIVKVi2yw">
+                      <input type="hidden" name="msg" value="105479882">
+                      <button type="button" data-name="胡桃里音乐酒馆(118广场店)" data-id="105479882" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#confirm">选择</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-sm-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">朱记炒菜烧烤烤鱼</h5>
+                  <p>3.5 / 6条评论</p>
+                  
+                  <p class="card-text">人均：77元</p>
+                  
+                  <p>介绍：暂无地址</p>
+                  
+                  <div class="d-flex justify-content-between">
+                    <a role="button" class="btn btn-sm btn-outline-primary" href="all/113151453">查看详情</a>
+                    <form action="all" method="POST"><input type="hidden" name="csrfmiddlewaretoken" value="829ww7uzPX00yPevXpa2XSYTDWCVEeR4MhNaVZvH9U8s5Uzur95WpwqTIVKVi2yw">
+                      <input type="hidden" name="msg" value="113151453">
+                      <button type="button" data-name="朱记炒菜烧烤烤鱼" data-id="113151453" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#confirm">选择</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-sm-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">花醉法式川菜音乐餐厅</h5>
+                  <p>5.0 / 6条评论</p>
+                  
+                  <p class="card-text">人均：77元</p>
+                  
+                  <p>介绍：暂无地址</p>
+                  
+                  <div class="d-flex justify-content-between">
+                    <a role="button" class="btn btn-sm btn-outline-primary" href="all/113940127">查看详情</a>
+                    <form action="all" method="POST"><input type="hidden" name="csrfmiddlewaretoken" value="829ww7uzPX00yPevXpa2XSYTDWCVEeR4MhNaVZvH9U8s5Uzur95WpwqTIVKVi2yw">
+                      <input type="hidden" name="msg" value="113940127">
+                      <button type="button" data-name="花醉法式川菜音乐餐厅" data-id="113940127" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#confirm">选择</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-sm-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">爷爷的热泥炉(上生新所店)</h5>
+                  <p>4.5 / 6条评论</p>
+                  
+                  <p class="card-text">人均：77元</p>
+                  
+                  <p>介绍：暂无地址</p>
+                  
+                  <div class="d-flex justify-content-between">
+                    <a role="button" class="btn btn-sm btn-outline-primary" href="all/127896271">查看详情</a>
+                    <form action="all" method="POST"><input type="hidden" name="csrfmiddlewaretoken" value="829ww7uzPX00yPevXpa2XSYTDWCVEeR4MhNaVZvH9U8s5Uzur95WpwqTIVKVi2yw">
+                      <input type="hidden" name="msg" value="127896271">
+                      <button type="button" data-name="爷爷的热泥炉(上生新所店)" data-id="127896271" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#confirm">选择</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-sm-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">红辣椒(曹杨店)</h5>
+                  <p>5.0 / 6条评论</p>
+                  
+                  <p class="card-text">人均：77元</p>
+                  
+                  <p>介绍：暂无地址</p>
+                  
+                  <div class="d-flex justify-content-between">
+                    <a role="button" class="btn btn-sm btn-outline-primary" href="all/13884647">查看详情</a>
+                    <form action="all" method="POST"><input type="hidden" name="csrfmiddlewaretoken" value="829ww7uzPX00yPevXpa2XSYTDWCVEeR4MhNaVZvH9U8s5Uzur95WpwqTIVKVi2yw">
+                      <input type="hidden" name="msg" value="13884647">
+                      <button type="button" data-name="红辣椒(曹杨店)" data-id="13884647" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#confirm">选择</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="step2">
+      <main role="main" class="container">
+        <div class="jumbotron lh-100">
+          <h2>映水芙蓉(百盛淮海路店)</h2>
+          <h6>评分：5.0</h6>
+          <h6>人均：77元</h6>
+          <h6>评价：6条</h6>
+          <h6>介绍：淮海中路918号百盛淮海路店7楼 推荐指数🌟🌟🌟🌟🌟 适合人群:家庭聚会 ,朋友聚会,适合拍照 江南烟雨芙蓉出,复古墨绿墙白布帘,优雅不失情调</h6>
+          <a id="step2button1" class="btn btn-outline-secondary btn-sm" href="#review" role="button"
+          data-container="body" data-toggle="popover" data-placement="bottom" data-content="点击查看所有评价"
+          >查看评价</a>
+          <a id="step2button3" class="btn btn-outline-secondary btn-sm" href="#" role="button"
+          data-container="body" data-toggle="popover" data-placement="right" data-content="点击返回商户列表（请不要使用浏览器后退按钮）"
+          >返回列表</a>
+        </div>
+      </main>
+    
+      <div class="my-3 p-3 bg-white rounded shadow-sm" id="review">
+        <h6 class="border-bottom border-gray pb-2 mb-0">最新评价</h6>
+    
+        <!-- <div class="alert alert-warning" role="alert">这是一条警示信息。</div> -->
+    
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@sukizyy
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#e83e8c" /><text x="50%" y="50%" fill="#e83e8c" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@dpuser_24171516732
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#6f42c1" /><text x="50%" y="50%" fill="6f42c1" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@liyinglidia
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@sevenjane
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#e83e8c" /><text x="50%" y="50%" fill="#e83e8c" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@LI-HI
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#6f42c1" /><text x="50%" y="50%" fill="6f42c1" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@LvPepe
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@julez
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#e83e8c" /><text x="50%" y="50%" fill="#e83e8c" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@afautumn
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+        
+        <div class="media text-muted pt-3">
+          <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#6f42c1" /><text x="50%" y="50%" fill="6f42c1" dy=".3em"></text>
+          </svg>
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark">@kangaroo911
+              <!-- <img src="" style="width:40px;height:13px;"> 评分： -->
+            </strong>
+            该用户没有评价
+              <!-- <strong class="d-block text-gray-dark">评论时间： | 1人赞了此评价</strong> -->
+          </p>
+        </div>
+      <small class="d-block text-right mt-3" id="backtotop"><a href="#" id="step2button2">返回顶部</a></small>
+
+    </div>
+  </div>
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row">
+        <div class="col-12 col-md">
+          <small class="d-block mb-3 text-muted">&copy; restaurantfinder.com, All Rights Reserved. </small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>公司信息</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">关于xx点评</a></li>
+            <li><a class="text-muted" href="#">媒体报道</a></li>
+            <li><a class="text-muted" href="#">投资者关系</a></li>
+            <li><a class="text-muted" href="#">联系方式</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>用户社区</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">用户诚信公约</a></li>
+            <li><a class="text-muted" href="#">站务论坛</a></li>
+            <li><a class="text-muted" href="#">应用下载</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>商务合作</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">推广服务</a></li>
+            <li><a class="text-muted" href="#">开放平台</a></li>
+            <li><a class="text-muted" href="#">商企通</a></li>
+          </ul>
+        </div>
+      </div>
+  </footer>
 </body>
+<script>
+  $(function() {
+    $('[data-toggle="popover"]').popover({trigger: 'manual'});
+    $(window).on('load', function(event) {
+      $('.modal').hide();
+      $('.step1').hide();
+      $('.step2').hide();
+      $('#next').hide();
+    })
+    $('#step0button').click(function(event) {
+      $('.modal').show();
+      $('.step1').show();
+      $('#step1button').popover('show');
+      $('.step0').hide();
+    })
+    $('#step1button').click(function(event) {
+      $('.step2').show();
+      $('.step1').hide();
+      $('#step1button').popover('hide');
+      $('#step2button1').popover('show');
+    })
+    $('#step2button1').click(function(event) {
+      $('#step2button1').popover('hide');
+      $('#step2button2').popover('show');
+    })
+    $('#step2button2').click(function(event) {
+      $('#step2button2').popover('hide');
+      $('#step2button3').popover('show');
+    })
+    $('#step2button3').click(function(event) {
+      $('.step0').show();
+      $('.step2').hide();
+      $('.modal').hide();
+      $('#step0button').hide();
+      $('#next').show();
+      $('#step2button3').popover('hide');
+      $('#next').popover('show');
+    })
+  })
+</script>
 <style>
 body {
   width: 80%;
@@ -25,5 +403,28 @@ body {
 .form {
   width: 40%;
   margin: 0 auto
+}
+.btn-primary a {
+  color: white;
+}
+
+.btn-primary a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.jumbotron {
+  background-color: #fff;
+  color: #444;
+}
+
+#step1button,#step2button1,#step2button2,#step2button3,#step3button{
+  position: relative;
+  z-index: 2000;
+  background-color: #fff;
+}
+
+#step1button:hover,#step2button1:hover,#step2button3:hover,#step3button:hover {
+  background-color: #007bff;
 }
 </style>

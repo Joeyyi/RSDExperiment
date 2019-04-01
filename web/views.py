@@ -23,7 +23,7 @@ def check_login(func):
     if request.session.get('is_active', False):
       return func(request,*args,**kwargs)
     else:
-      return HttpResponseRedirect('register?mode=error')
+      return HttpResponseRedirect('/exp/register?mode=error')
 
   return wrapper
 

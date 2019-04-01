@@ -194,12 +194,23 @@ $(function(){
     $(window).scroll(function(){
       h = $("#backtotop").offset().top-$(document).scrollTop() - $(window).height();
       if(h<0 && !has_reached_bottom) {
-        $.post("/exp/log", {
+        has_reached_bottom = true;
+        // $.post("/exp/log", {
+        //     action: 'all review',
+        //     value: '{{ request.path }}',
+        //     userid: '{{ user.userid }}'
+        // }).done(function(Data) {
+        //   has_reached_bottom = true;
+        // });
+        $.ajax({
+          type: "POST",
+          url: "/exp/log",
+          data: {
             action: 'all review',
             value: '{{ request.path }}',
             userid: '{{ user.userid }}'
-        }).done(function(Data) {
-          has_reached_bottom = true;
+          },
+          error: function() {has_reached_bottom = false;}
         });
       }
     })
