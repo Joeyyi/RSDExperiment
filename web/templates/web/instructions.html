@@ -381,13 +381,19 @@
       $('.step2').show();
       $('.step1').hide();
       $('#step1button').popover('hide');
+      $('#step2button2').addClass('behind');
+      $('#step2button3').addClass('behind');
       $('#step2button1').popover('show');
     })
     $('#step2button1').click(function(event) {
+      $('#step2button1').addClass('behind');
+      $('#step2button2').removeClass('behind');
       $('#step2button1').popover('hide');
       $('#step2button2').popover('show');
     })
     $('#step2button2').click(function(event) {
+      $('#step2button2').addClass('behind');
+      $('#step2button3').removeClass('behind');
       $('#step2button2').popover('hide');
       $('#step2button3').popover('show');
     })
@@ -423,6 +429,10 @@ body {
 .jumbotron {
   background-color: #fff;
   color: #444;
+}
+
+.behind {
+  z-index: 100!important;
 }
 
 #step1button,#step2button1,#step2button2,#step2button3,#step3button{
