@@ -117,7 +117,7 @@
       <h6>评分：{{store.store_stars}}</h6>
       <h6>人均：{{store.store_avg}}元</h6>
       <h6>评价：{{store.store_num_review}}条</h6>
-      <h6>口味：{{store.flavor}} / 服务：{{store.service}} / 环境：{{store.envir}}</h6>
+      <h6>口味：{{store.store_flavor}} / 服务：{{store.store_service}} / 环境：{{store.store_envir}}</h6>
       <h6>推荐菜：
         {% for r in store.store_rec %}
         <span>{{r}}</span>
@@ -142,6 +142,7 @@
       </svg>
       <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
         <strong class="d-block text-gray-dark">@{{ review.review_author }}
+            <span>  评价：{% with ''|center:review.review_stars as range %}{% for _ in range %}★{% endfor %}{% endwith %}</span>
           <!-- <img src="{{ review.level|first }}" style="width:40px;height:13px;"> 评分：{{ review.stars|slice:"1" }} -->
         </strong>
         {{ review.review_text }}
