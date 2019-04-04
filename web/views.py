@@ -57,16 +57,16 @@ def register(request):
     return render(request, 'web/register.html')
 
   if request.method == 'POST':
-    u = request.POST.get('name', None)
-    n = request.POST.get('number', None)
-    c = request.POST.get('contact', None)
+    u = request.POST.get('name', 'pretest_anonymous')
+    n = request.POST.get('number', 'anonymous')
+    c = request.POST.get('contact', 'anonymous')
     if u: # 验证
       s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=random.randint(1,5))
       s.save()
       s = Subject.objects.filter(sub_number=n).order_by('-sub_created')[0]
       request.session.set_expiry(600)
       request.session['is_active'] = True
-      request.session['username'] = request.POST['name']
+      request.session['username'] = u
       request.session['id'] = s.sub_id
       request.session['group'] = s.sub_group
       request.session['seed'] = random.randint(0,100)
