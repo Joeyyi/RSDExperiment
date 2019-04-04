@@ -71,7 +71,7 @@
               {% comment <p>{% with ''|center:store.store_stars as range %}{% for _ in range %}★{% endfor %}{% endwith %} / {{ store.num_review }}条评论</p> %} {% endcomment %}
               <p class="card-text">人均：{{ store.store_avg }}元</p>
               {% if store.store_rec %}
-              <p>介绍：{{ store.store_rec }}</p>
+              <p>推荐菜：{{ store.store_rec }}</p>
               {% endif %}
               <div class="d-flex justify-content-between">
                 <a role="button" class="btn btn-sm btn-outline-primary" href="all/{{store.store_id}}">查看详情</a>

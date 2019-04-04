@@ -22,7 +22,7 @@
         <label for="{{ q.id }}">{{ forloop.counter }}. {{q.caption}}</label>
         <br>
         {% for o in q.options %}
-        <div class="form-check form-check-inline">
+        <div class="form-check">
           <label class="form-check-label" for="{{ o.id }}">
             <input class="form-check-input" type="radio" name="{{ q.id }}" id="{{ o.id }}" value="{{ o.id }}" required>
             <!-- --value是值，name是控件名 -->

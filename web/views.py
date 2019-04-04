@@ -175,8 +175,10 @@ def details(request,store_id):
 def survey(request):
   if request.method == "GET":
     s = Subject.objects.get(pk=request.session['id'])
-    survey = Survey.objects.get(category=3,group=s.sub_group)
-    qlist = Question.objects.filter(survey__id=survey.id).order_by('order')
+    survey = Survey.objects.get(category=3,group=0)
+    qlist = list(Question.objects.filter(survey__id=survey.id).order_by('order'))
+    random.seed(request.session.get('seed', random.randint(0,100)))
+    random.shuffle(qlist)
     for q in qlist:
       q.options = Option.objects.filter(question=q.id).order_by('value')
     context = {
