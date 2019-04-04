@@ -9,15 +9,7 @@
   <a role="button" class="btn btn-sm btn-primary" href="index">继续实验</a>
   <a role="button" class="btn btn-sm btn-primary" href="logout">退出登录</a>
   {% else %}
-<div class="py-5 text-center">
-  <h2>Welcome!</h2>
-</div>
-<div class="form">
-  <form action="register" method="POST">{% csrf_token %}
-  <button type="submit" class="btn btn-lg btn-primary btn-block">进入实验</button>
-</form>
-</div>
-  <!-- <div class="py-5 text-center">
+  <div class="py-5 text-center">
     <h2>Welcome!</h2>
     <p class="lead">请填写个人信息。</p>
   </div>
@@ -25,6 +17,11 @@
     {% if request.GET.urlencode and request.GET.mode == 'error' %}
     <div class="alert alert-warning" role="alert">您必须先登录才能开始实验。</div>
     {% endif %}
+    {% if request.GET.urlencode and request.GET.anonymous == 'true' %}
+    <form action="register" method="POST">{% csrf_token %}
+        <button type="submit" class="btn btn-lg btn-primary btn-block">进入实验</button>
+    </form>
+    {% else %}
     <form action="register" method="POST">{% csrf_token %}
       <div class="form-group">
         <label for="name">姓名</label>
@@ -36,12 +33,13 @@
       </div>
       <div class="form-group">
         <label for="contact">联系方式</label>
-        <input type="text" class="form-control" id="contect" name="contact" placeholder="电话/邮箱" required>
+        <input type="text" class="form-control" id="contect" name="contact" placeholder="请填写常用手机号/邮箱" required>
         <small id="emailHelp" class="form-text text-muted">个人信息仅用于身份识别，不作为实验数据使用。我们将严格保护您的隐私。</small>
       </div>
       <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>
     </form>
-  </div> -->
+    {% endif %}
+  </div>
   {% endif %}
 </body>
 <style>
