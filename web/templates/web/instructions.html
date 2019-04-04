@@ -357,14 +357,20 @@
   </footer>
 </body>
 <script>
-  $(function() {
-    $('[data-toggle="popover"]').popover({trigger: 'manual'});
-    $(window).on('load', function(event) {
-      $('.modal').hide();
+  window.onload = function(){
+    $('.modal').hide();
       $('.step1').hide();
       $('.step2').hide();
       $('#next').hide();
-    })
+};
+  $(function() {
+    $('[data-toggle="popover"]').popover({trigger: 'manual'});
+    // $(window).on('load', function(event) {
+    //   $('.modal').hide();
+    //   $('.step1').hide();
+    //   $('.step2').hide();
+    //   $('#next').hide();
+    // })
     $('#step0button').click(function(event) {
       $('.modal').show();
       $('.step1').show();
