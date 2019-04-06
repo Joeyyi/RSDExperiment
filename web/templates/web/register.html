@@ -19,7 +19,8 @@
     {% endif %}
     {% if request.GET.urlencode and request.GET.anonymous == 'true' %}
     <form action="register" method="POST">{% csrf_token %}
-        <button type="submit" class="btn btn-lg btn-primary btn-block">进入实验</button>
+      <input type="hidden" name="redirect" value="{{ request.GET.redirect|default:'index' }}">
+      <button type="submit" class="btn btn-lg btn-primary btn-block">进入实验</button>
     </form>
     {% else %}
     <form action="register" method="POST">{% csrf_token %}
@@ -36,6 +37,7 @@
         <input type="text" class="form-control" id="contect" name="contact" placeholder="请填写常用手机号/邮箱" required>
         <small id="emailHelp" class="form-text text-muted">个人信息仅用于身份识别，不作为实验数据使用。我们将严格保护您的隐私。</small>
       </div>
+      <input type="hidden" name="redirect" value="{{ request.GET.redirect|default:'index' }}">
       <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>
     </form>
     {% endif %}

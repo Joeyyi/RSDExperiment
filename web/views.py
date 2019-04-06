@@ -57,7 +57,7 @@ def register(request):
     return render(request, 'web/register.html')
 
   if request.method == 'POST':
-    u = request.POST.get('name', 'pretest_anonymous')
+    u = request.POST.get('name', 'anonymous')
     n = request.POST.get('number', 'anonymous')
     c = request.POST.get('contact', 'anonymous')
     if u: # 验证
@@ -70,7 +70,9 @@ def register(request):
       request.session['id'] = s.sub_id
       request.session['group'] = s.sub_group
       request.session['seed'] = random.randint(0,100)
-      return HttpResponseRedirect('index')
+      # return HttpResponseRedirect('index')
+      return HttpResponseRedirect(request.POST.get('redirect', 'index'))
+      # return HttpResponseRedirect('instructions')
     else:
       # return HttpResponse(u)
       return HttpResponseRedirect('register?mode=error')
