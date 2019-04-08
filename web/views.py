@@ -204,7 +204,7 @@ def survey(request):
 
   if request.method == "POST":
     s = Subject.objects.get(pk=request.session['id'])
-    survey = Survey.objects.get(category=3,group=s.group)
+    survey = Survey.objects.get(category=3,group=request.session['group'])
     qlist = Question.objects.filter(survey__id=survey.id).order_by('order')
     for q in qlist:
       ans = request.POST[f"{q.id}"]
