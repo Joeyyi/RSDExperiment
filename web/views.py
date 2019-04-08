@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from django import forms
 
@@ -133,6 +133,8 @@ def all(request):
       except ObjectDoesNotExist:
         has_cleared = False
         break
+      except MultipleObjectsReturned:
+        pass
 
     random.seed(request.session.get('seed', random.randint(0,100)))
     random.shuffle(stores)
