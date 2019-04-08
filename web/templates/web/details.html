@@ -124,7 +124,9 @@
         {%endfor%}
       </h6>
       <a class="btn btn-outline-secondary btn-sm" href="#review" role="button">查看评价</a>
-      <a class="btn btn-outline-secondary btn-sm" href="/exp/all" role="button">返回列表</a>
+      <a class="btn btn-outline-secondary btn-sm" href="#" role="button" id="backtolist"
+      data-container="body" data-toggle="popover" data-placement="right" data-content="您必须阅读完所有评论后才能离开页面"
+      >返回列表</a>
     </div>
   </main>
 
@@ -193,23 +195,21 @@
   <script>
   var has_reached_bottom = false;
 $(function(){
+    $('[data-toggle="popover"]').popover({trigger: 'hover'});
     $(window).scroll(function(){
       h = $("#backtotop").offset().top-$(document).scrollTop() - $(window).height();
+      if(has_reached_bottom) {
+        $('#backtolist').attr('href','/exp/all');
+        $('#backtolist').popover('disable');
+      }
       if(h<0 && !has_reached_bottom) {
         has_reached_bottom = true;
-        // $.post("/exp/log", {
-        //     action: 'all review',
-        //     value: '{{ request.path }}',
-        //     userid: '{{ user.userid }}'
-        // }).done(function(Data) {
-        //   has_reached_bottom = true;
-        // });
         $.ajax({
           type: "POST",
           url: "/exp/log",
           data: {
             action: 'all review',
-            value: '{{ request.path }}',
+            value: '{{ store.store_id }}',
             userid: '{{ user.userid }}'
           },
           error: function() {has_reached_bottom = false;}

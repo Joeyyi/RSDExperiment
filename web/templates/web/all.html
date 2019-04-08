@@ -17,7 +17,12 @@
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
-      modal.find('.modal-body p').text('你选择的是：' + name + '。确认推荐这家餐厅给Jason吗？')
+      if({{ user.allow_choosing }}) {
+        modal.find('.modal-body p').text('你选择的是：' + name + '。确认推荐这家餐厅给Jason吗？')
+      } else {
+        modal.find('.modal-footer').hide();
+        modal.find('.modal-body').text('请先浏览所有商户的评价，再做出选择！')
+      }
     })
   })
   function confirm() {

@@ -19,7 +19,8 @@ class Store(models.Model):
   store_service = models.CharField(max_length=5,verbose_name='商户服务分',default='8.5')
   store_phone = models.CharField(max_length=30,verbose_name='商户电话',default='暂无电话')
   store_pic = models.URLField(max_length=300,verbose_name='商户图片',default='')
-
+  def __str__(self):
+    return self.store_name
 class Review(models.Model):
   review_id = models.AutoField(primary_key=True)
   review_author = models.CharField(max_length=50,verbose_name='点评用户',default='匿名用户')

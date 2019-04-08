@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 
 from django import forms
 
@@ -123,13 +124,23 @@ def all(request):
     # with open("list.json",'r') as load_f:
     #   list_dict = json.load(load_f)
     # context = {'stores': list_dict[:15], 'user': {'userid': request.session.get('id', None)}}
+
     stores = list(Store.objects.all())
+    has_cleared = True
+    for s in stores:
+      try:
+        l = Log.objects.get(action='all review', value=s.store_id)
+      except ObjectDoesNotExist:
+        has_cleared = False
+        break
+
     random.seed(request.session.get('seed', random.randint(0,100)))
     random.shuffle(stores)
     context = {
       'stores': stores,
         'user': {
-          'userid': request.session.get('id', None)
+          'userid': request.session.get('id', None),
+          'allow_choosing': 'true' if has_cleared else 'false'
         }
     }
     request.session['start'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -191,7 +202,7 @@ def survey(request):
 
   if request.method == "POST":
     s = Subject.objects.get(pk=request.session['id'])
-    survey = Survey.objects.get(category=3,group=0)
+    survey = Survey.objects.get(category=3,group=s.group)
     qlist = Question.objects.filter(survey__id=survey.id).order_by('order')
     for q in qlist:
       ans = request.POST[f"{q.id}"]
