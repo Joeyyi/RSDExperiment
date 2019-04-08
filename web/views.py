@@ -190,7 +190,7 @@ def details(request,store_id):
 def survey(request):
   if request.method == "GET":
     s = Subject.objects.get(pk=request.session['id'])
-    survey = Survey.objects.get(category=3,group=0)
+    survey = Survey.objects.get(category=3,group=request.session['group'])
     qlist = list(Question.objects.filter(survey__id=survey.id).order_by('order'))
     random.seed(request.session.get('seed', random.randint(0,100)))
     random.shuffle(qlist)
