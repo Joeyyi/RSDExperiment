@@ -11,7 +11,9 @@
   {% else %}
   <div class="py-5 text-center">
     <h2>Welcome!</h2>
+    {% if request.GET.urlencode and request.GET.anonymous != 'true' %}
     <p class="lead">请填写个人信息。</p>
+    {% endif %}
   </div>
   <div class="form">
     {% if request.GET.urlencode and request.GET.mode == 'error' %}

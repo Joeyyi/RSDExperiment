@@ -129,7 +129,7 @@ def all(request):
     has_cleared = True
     for s in stores:
       try:
-        l = Log.objects.get(action='all review', value=s.store_id)
+        l = Log.objects.get(action='all review', value=s.store_id, subject__sub_id=request.session['id'])
       except ObjectDoesNotExist:
         has_cleared = False
         break
