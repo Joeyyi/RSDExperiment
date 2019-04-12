@@ -62,7 +62,7 @@ def register(request):
     n = request.POST.get('number', 'anonymous')
     c = request.POST.get('contact', 'anonymous')
     if u: # 验证
-      s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=random.randint(1,5))
+      s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=random.randint(os.environ.get('GROUP_MIN',1),os.environ.get('GROUP_MAX',5)))
       s.save()
       s = Subject.objects.filter(sub_number=n).order_by('-sub_created')[0]
       request.session.set_expiry(600)
