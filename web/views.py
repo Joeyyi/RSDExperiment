@@ -11,6 +11,7 @@ from django import forms
 from .models import Store, Review, Subject, Decision, Survey, Question, Option, Choice, Log
 import random
 from datetime import datetime, timedelta
+import os
 
 # 有做form的野心
 
