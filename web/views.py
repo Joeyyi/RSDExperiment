@@ -62,8 +62,9 @@ def register(request):
     u = request.POST.get('name', 'anonymous')
     n = request.POST.get('number', 'anonymous')
     c = request.POST.get('contact', 'anonymous')
+    g = request.POST.get('setting', random.randint(int(os.environ.get('GROUP_MIN',1)),int(os.environ.get('GROUP_MAX',5))))
     if u: # 验证
-      s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=random.randint(int(os.environ.get('GROUP_MIN',1)),int(os.environ.get('GROUP_MAX',5))))
+      s = Subject(sub_name=u,sub_number=n,sub_contact=c,sub_group=g)
       s.save()
       s = Subject.objects.filter(sub_number=n).order_by('-sub_created')[0]
       request.session.set_expiry(600)
@@ -72,11 +73,8 @@ def register(request):
       request.session['id'] = s.sub_id
       request.session['group'] = s.sub_group
       request.session['seed'] = random.randint(0,100)
-      # return HttpResponseRedirect('index')
       return HttpResponseRedirect(request.POST.get('redirect', 'index'))
-      # return HttpResponseRedirect('instructions')
     else:
-      # return HttpResponse(u)
       return HttpResponseRedirect('register?mode=error')
 
 def logout(request):

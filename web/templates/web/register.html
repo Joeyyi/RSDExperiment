@@ -22,6 +22,9 @@
     {% if request.GET.urlencode and request.GET.anonymous == 'true' %}
     <form action="register" method="POST">{% csrf_token %}
       <input type="hidden" name="redirect" value="{{ request.GET.redirect|default:'index' }}">
+      {% if request.GET.urlencode and request.GET.setting %}
+      <input type="hidden" name="setting" value="{{ request.GET.setting }}">
+      {% endif %}
       <button type="submit" class="btn btn-lg btn-primary btn-block">进入实验</button>
     </form>
     {% else %}
