@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+admin.site.site_header = '实验管理系统'
+admin.site.site_title = '实验管理系统'
 # Register your models here.
 
 from .models import Store, Review, Subject, Survey, Decision, Question, Option, Choice, Log

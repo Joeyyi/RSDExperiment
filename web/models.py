@@ -5,6 +5,9 @@ from django.utils import timezone
 # Create your models here.
 
 class Store(models.Model):
+  class Meta:
+    verbose_name = '商户信息'
+    verbose_name_plural = '商户信息' 
   store_id= models.CharField(max_length=50,unique=True,primary_key=True,verbose_name='商户id')
   store_name= models.CharField(max_length=50,verbose_name='商户id',default='点评商户')
   store_stars= models.CharField(max_length=5,verbose_name='商户评分',default='4.5')
@@ -22,6 +25,9 @@ class Store(models.Model):
   def __str__(self):
     return self.store_name
 class Review(models.Model):
+  class Meta:
+    verbose_name = '商户点评'
+    verbose_name_plural = '商户点评' 
   review_id = models.AutoField(primary_key=True)
   review_author = models.CharField(max_length=50,verbose_name='点评用户',default='匿名用户')
   review_author_lv = models.IntegerField(verbose_name='点评id',default='点评用户等级')
@@ -36,6 +42,9 @@ class Review(models.Model):
   review_rec = models.CharField(max_length=50,verbose_name='点评推荐菜',default='')
 
 class Subject(models.Model):
+  class Meta:
+    verbose_name = '被试者'
+    verbose_name_plural = '被试者' 
   GROUP_CHOICES = (
     ('0','test'),
     ('1','1组'),
@@ -57,12 +66,18 @@ class Subject(models.Model):
     return self.sub_name
 
 class Decision(models.Model):
+  class Meta:
+    verbose_name = '决策结果'
+    verbose_name_plural = '决策结果' 
   dec_id = models.AutoField(primary_key=True)
   dec_store = models.ForeignKey(Store,to_field='store_id',on_delete=models.CASCADE,verbose_name='点评商户')
   dec_sub = models.OneToOneField(Subject,on_delete=models.CASCADE,verbose_name='决策被试id')
   dec_duration = models.FloatField(default=0,verbose_name='决策时间')
 
 class Survey(models.Model):
+  class Meta:
+    verbose_name = '问卷'
+    verbose_name_plural = '问卷' 
   title = models.CharField(max_length=50,verbose_name='问卷名称')
   description = models.CharField(max_length=1000,verbose_name='问卷描述')
   category = models.IntegerField(default=1,verbose_name='问卷类别')
@@ -71,6 +86,9 @@ class Survey(models.Model):
     return self.title
 
 class Question(models.Model):
+  class Meta:
+    verbose_name = '问卷题目'
+    verbose_name_plural = '问卷题目' 
   caption = models.CharField(max_length=500,verbose_name='题目描述')
   type_question = models.IntegerField(default=1,verbose_name='问题类型')
   order = models.FloatField(default=0,verbose_name='问题顺序')
@@ -79,6 +97,9 @@ class Question(models.Model):
     return self.caption
 
 class Option(models.Model):
+  class Meta:
+    verbose_name = '问卷选项'
+    verbose_name_plural = '问卷选项' 
   question = models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name='所属问题')
   description = models.CharField(max_length=50,verbose_name='选项描述')
   value = models.IntegerField(verbose_name='选项分值')
@@ -86,12 +107,18 @@ class Option(models.Model):
     return self.description
 
 class Choice(models.Model):
+  class Meta:
+    verbose_name = '被试者选择'
+    verbose_name_plural = '被试者选择' 
   subject = models.ForeignKey(Subject,on_delete=models.CASCADE,verbose_name='所属被试')
   question = models.ForeignKey(Question,on_delete=models.CASCADE,verbose_name='所属问题')
   option = models.ForeignKey(Option,on_delete=models.CASCADE,verbose_name='回答')
   def __str__(self):
     return '%s - %s - %s' % (self.subject.sub_name,self.question.caption,self.option.description)
 class Log(models.Model):
+  class Meta:
+    verbose_name = '浏览日志'
+    verbose_name_plural = '浏览日志' 
   subject = models.ForeignKey(Subject,on_delete=models.CASCADE,verbose_name='所属被试')
   time = models.CharField(max_length=50,verbose_name='日志时间')
   action = models.CharField(max_length=50,verbose_name='行为')
